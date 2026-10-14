@@ -1,0 +1,50 @@
+{
+  "scenarioId": "seventh-visitor",
+  "cover": {
+    "src": "/scenarios/seventh-visitor/hotel-night.png",
+    "alt": "雾夜中没有地图坐标的老旧旅馆",
+    "tone": "fog"
+  },
+  "defaultScene": {
+    "src": "/scenarios/seventh-visitor/mirror-corridor.png",
+    "alt": "昏暗旅馆走廊尽头，门缝透出一线红光",
+    "tone": "corridor"
+  },
+  "scenes": {
+    "blurred_manifest": "reception",
+    "first_knock": "corridor",
+    "unsigned_knock": "reception",
+    "voice_receipt": "reception",
+    "service_warning": "corridor",
+    "holy_water": "reception",
+    "cracked_basin": "reception",
+    "mirror_corridor": "corridor",
+    "dark_corridor": "corridor",
+    "last_wash": "reception",
+    "echo_check": "corridor",
+    "final_exit": "corridor"
+  },
+  "assets": {
+    "exterior": {
+      "src": "/scenarios/seventh-visitor/hotel-night.png",
+      "alt": "雾夜中没有地图坐标的老旧旅馆",
+      "tone": "fog"
+    },
+    "corridor": {
+      "src": "/scenarios/seventh-visitor/mirror-corridor.png",
+      "alt": "昏暗镜廊，空无一人的倒影通向第七间房",
+      "tone": "corridor"
+    },
+    "reception": {
+      "src": "/scenarios/seventh-visitor/reception-ledger.png",
+      "alt": "登记簿、铜铃与钥匙留在无人值守的旅馆前台",
+      "tone": "archive"
+    }
+  },
+  "endings": {
+    "safe-dawn": "exterior",
+    "carried-out": "exterior",
+    "sealed-hotel": "corridor",
+    "new-guests": "reception"
+  }
+}

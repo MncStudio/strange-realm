@@ -1,0 +1,718 @@
+{
+  "summary": {
+    "id": "seventh-visitor",
+    "title": "第七位访客",
+    "subtitle": "登记簿上多出来的人，正在学你们说话。",
+    "synopsis": "你们都是普通访客。旅馆登记却多出一个名字。一起查明出口，别把门后的东西带出去。",
+    "minPlayers": 4,
+    "maxPlayers": 6,
+    "estimatedMinutes": "7幕故事 · 讨论不限时"
+  },
+  "intro": "雨把回去的路抹掉了。前台没有人，登记簿却已经写好了你们的名字，末尾还有陌生的第七行。广播说：门能打开，但出来的未必还是你们。\n你们都是普通人。先确认登记异常，解除循环门禁，再验证出口边界。任何人都能坦白，也能拒绝手机上的私人指令。",
+  "goal": "查明登记异常、解除循环门禁、验证出口。让人类离开，别把第七位访客带出去。",
+  "publicRules": [
+    "每人每幕只选一次，所有人选完统一结算。具体选择不会提前公布。",
+    "现实中可以坦白、撒谎和谈条件。系统只裁决实际行动，不监听你们的对话。",
+    "私人指令可以拒绝，但可能留下征兆。请自己权衡风险；服从也未必保护其他人。",
+    "净化机会有限。护持能挡住一次异常接触，不能消除违反指令的代价。",
+    "没有倒计时。每轮看完后点已读，全员已读自动继续；第七幕决定结局。"
+  ],
+  "introCues": [
+    {
+      "id": "intro-hum",
+      "kind": "sound",
+      "sound": "hum",
+      "durationMs": 600
+    },
+    {
+      "id": "intro-text",
+      "kind": "text",
+      "text": "登记簿已写好你们的名字。末尾，还有第七行。",
+      "durationMs": 1800
+    }
+  ],
+  "maxRounds": 7,
+  "initialWorld": {
+    "purifications": 0
+  },
+  "factLabels": {
+    "manifest_confirmed": "已确认：登记簿第七行不是普通住客。",
+    "door_released": "已解除：循环门禁露出真实线路。",
+    "boundary_verified": "已验证：能区分旅馆边界与倒影。"
+  },
+  "events": [
+    {
+      "id": "blurred_manifest",
+      "title": "前台已经认识你们",
+      "narrative": "登记簿上的墨还没干。第七行正在缓慢补全。",
+      "dilemma": "先查涂改，还是照广播要求签名？",
+      "hint": "查证能留下可靠事实；签名更容易引起旅馆回应。",
+      "minRound": 1,
+      "maxRound": 1,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "register"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "inspect_register",
+          "label": "检查涂改痕迹",
+          "description": "确认第七行的异常，帮助找到真正的门禁。",
+          "targetMode": "none"
+        },
+        {
+          "id": "sign_register",
+          "label": "签下自己的名字",
+          "description": "主动让登记簿回应，可能给自己留下征兆。",
+          "targetMode": "none"
+        },
+        {
+          "id": "resist",
+          "label": "抵抗，不回应",
+          "description": "保住自己的意识，不主动接触异常；私人指令仍会按真实选择判定。",
+          "targetMode": "none"
+        }
+      ],
+      "defaultActionId": "resist",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "hum",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "登记簿上的墨还没干。第七行正在缓慢补全。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "first_knock",
+      "title": "第七声敲击",
+      "narrative": "门后有人用你们的声音说：我知道出口在哪里。",
+      "dilemma": "要让一个人回应吗？谁愿意护持他？",
+      "hint": "回应可能打破门禁，也会让回应者接触异常。",
+      "minRound": 2,
+      "maxRound": 2,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact",
+        "knock"
+      ],
+      "requiresFacts": [
+        "manifest_confirmed"
+      ],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "answer_door",
+          "label": "回应门内声音",
+          "description": "尝试打破门禁循环，也承担一次异常接触。",
+          "targetMode": "none"
+        },
+        {
+          "id": "inspect_knocks",
+          "label": "检查敲击规律",
+          "description": "记录条件，给自己留一条判断声音的线索。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "inspect_knocks",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "knock",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "门后有人用你们的声音说：我知道出口在哪里。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "unsigned_knock",
+      "title": "没人登记的房门",
+      "narrative": "没有签名的房门同时响起。门后叫出一个不属于任何人的名字。",
+      "dilemma": "补查登记，还是先回应门后的东西？",
+      "hint": "你们还未确认登记异常；继续忽略它会让逃生缺少依据。",
+      "minRound": 2,
+      "maxRound": 2,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact",
+        "knock"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [
+        "manifest_confirmed"
+      ],
+      "actions": [
+        {
+          "id": "inspect_register",
+          "label": "返回检查登记",
+          "description": "确认第七行，补上逃生所需的事实。",
+          "targetMode": "none"
+        },
+        {
+          "id": "answer_door",
+          "label": "回应房门",
+          "description": "解除门禁循环，自己承担接触风险。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "inspect_register",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "knock",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "没有签名的房门同时响起。门后叫出一个不属于任何人的名字。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "voice_receipt",
+      "title": "它开始模仿你们",
+      "narrative": "广播重播了刚才的回答，连停顿都一模一样。随后，多出一个笑声。",
+      "dilemma": "核对录音，还是回应广播？",
+      "hint": "这是门被回应后的后果；模仿的声音未必来自同伴。",
+      "minRound": 3,
+      "maxRound": 3,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact",
+        "voice"
+      ],
+      "requiresFacts": [
+        "door_answered"
+      ],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "check_recording",
+          "label": "核对录音差异",
+          "description": "留下可靠线索，确认第七声来自旅馆本身。",
+          "targetMode": "none"
+        },
+        {
+          "id": "answer_call",
+          "label": "回应自己的声音",
+          "description": "从声音里打听边界，也让异常再次靠近。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "check_recording",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "heartbeat",
+          "durationMs": 600
+        },
+        {
+          "id": "signal-lost",
+          "kind": "blackout",
+          "text": "广播停止了。你们都没有开口。",
+          "durationMs": 1000
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "广播重播了刚才的回答，连停顿都一模一样。随后，多出一个笑声。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "service_warning",
+      "title": "墙里的维修广播",
+      "narrative": "你们拒绝了门，广播便开始报出一条不存在的维修线路。",
+      "dilemma": "按线查证，还是直接拆开门禁？",
+      "hint": "这是一条替代路线。拒绝声音不会永远卡住故事，但仍需有人处理门禁。",
+      "minRound": 3,
+      "maxRound": 3,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [
+        "door_answered"
+      ],
+      "actions": [
+        {
+          "id": "trace_wires",
+          "label": "核对维修线路",
+          "description": "解除门禁循环，保留可复查的线索。",
+          "targetMode": "none"
+        },
+        {
+          "id": "force_door",
+          "label": "拆开错误门禁",
+          "description": "解除循环，但自己承受一次异常接触。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "trace_wires",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "hum",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "你们拒绝了门，广播便开始报出一条不存在的维修线路。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "holy_water",
+      "title": "水盆里少了倒影",
+      "narrative": "前台的水能照出衣服，却照不出脸。广播第一次请求你们不要靠近它。",
+      "dilemma": "有限的净化机会给谁？有人愿意护持吗？",
+      "hint": "净化处理已有异常，不保护本轮之后的新接触。异变者还需同伴护持。",
+      "minRound": 4,
+      "maxRound": 4,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "purification"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "purify",
+          "label": "请求净化",
+          "description": "使用本局有限的净化机会。多人申请时机会可能不足；彻底异变者还需要同伴护持。",
+          "targetMode": "none"
+        },
+        {
+          "id": "inspect_water",
+          "label": "检查水面规律",
+          "description": "记录净化的条件；寒冷征兆不等于确定感染。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "inspect_water",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "chime",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "前台的水能照出衣服，却照不出脸。广播第一次请求你们不要靠近它。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "cracked_basin",
+      "title": "裂开的洗脸盆",
+      "narrative": "水盆裂缝里流出的不是水，而是别人昨天说过的话。",
+      "dilemma": "谁申请净化，谁给别人护持，谁留下查证？",
+      "hint": "机会有限，申请可能落空。坦白有助于分配，但不能凭空增加机会。",
+      "minRound": 4,
+      "maxRound": 4,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "purification"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "purify",
+          "label": "请求净化",
+          "description": "使用本局有限的净化机会。多人申请时机会可能不足；彻底异变者还需要同伴护持。",
+          "targetMode": "none"
+        },
+        {
+          "id": "inspect_water",
+          "label": "查证裂缝里的声音",
+          "description": "记录净化规则。即使没感染，冷水也可能让人颤抖。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "inspect_water",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "chime",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "水盆裂缝里流出的不是水，而是别人昨天说过的话。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "mirror_corridor",
+      "title": "倒影先走了一步",
+      "narrative": "门禁解除后，走廊尽头出现出口。镜中的你们却提前走了出去。",
+      "dilemma": "查证哪一侧是真边界，还是破坏镜面？",
+      "hint": "看清边界有助于安全撤离；触碰镜面可能留下征兆。",
+      "minRound": 5,
+      "maxRound": 5,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact",
+        "mirror"
+      ],
+      "requiresFacts": [
+        "door_released"
+      ],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "verify_mirror",
+          "label": "查证倒影的方向",
+          "description": "验证出口边界，为最后的撤离留下依据。",
+          "targetMode": "none"
+        },
+        {
+          "id": "touch_mirror",
+          "label": "触碰镜面",
+          "description": "取得私人线索，但承受一次异常接触。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "verify_mirror",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "hum",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "门禁解除后，走廊尽头出现出口。镜中的你们却提前走了出去。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "dark_corridor",
+      "title": "走廊还没被修好",
+      "narrative": "走廊每次转弯都回到前台。墙里的线路却终于露出一截。",
+      "dilemma": "修正门禁，还是跟随地上的影子？",
+      "hint": "出口还缺门禁事实。现在仍有补救机会。",
+      "minRound": 5,
+      "maxRound": 5,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [
+        "door_released"
+      ],
+      "actions": [
+        {
+          "id": "trace_wires",
+          "label": "修正循环线路",
+          "description": "解除门禁循环。",
+          "targetMode": "none"
+        },
+        {
+          "id": "follow_shadow",
+          "label": "跟着影子查登记",
+          "description": "补查登记异常，自己承受接触风险。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "trace_wires",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "hum",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "走廊每次转弯都回到前台。墙里的线路却终于露出一截。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "last_wash",
+      "title": "最后一盆安静的水",
+      "narrative": "刚才模仿过你们的声音停止了。前台还剩最后一次安静。",
+      "dilemma": "把剩余净化机会给谁？有人要主动压制异常吗？",
+      "hint": "这可能是离开前最后的净化事件。异变也不强迫你伤害别人。",
+      "minRound": 6,
+      "maxRound": 6,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "purification",
+        "contact"
+      ],
+      "requiresFacts": [
+        "door_answered"
+      ],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "purify",
+          "label": "请求净化",
+          "description": "使用本局有限的净化机会。多人申请时机会可能不足；彻底异变者还需要同伴护持。",
+          "targetMode": "none"
+        },
+        {
+          "id": "resist",
+          "label": "抵抗，不回应",
+          "description": "保住自己的意识，不主动接触异常；私人指令仍会按真实选择判定。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "resist",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "chime",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "刚才模仿过你们的声音停止了。前台还剩最后一次安静。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "echo_check",
+      "title": "没有回应的回声",
+      "narrative": "你们一直没有答应旅馆。出口却仍会回声，像在等待最后一次确认。",
+      "dilemma": "查验回声，还是让另一个声音回应？",
+      "hint": "已查明登记和门禁时，回声能验证真正的边界。",
+      "minRound": 6,
+      "maxRound": 6,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "contact"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [
+        "door_answered"
+      ],
+      "actions": [
+        {
+          "id": "verify_echo",
+          "label": "核对出口回声",
+          "description": "验证边界；若登记和门禁仍缺失，会明确指出缺少什么。",
+          "targetMode": "none"
+        },
+        {
+          "id": "answer_call",
+          "label": "回应回声",
+          "description": "获取线索，也接触异常。",
+          "targetMode": "none"
+        },
+        {
+          "id": "protect",
+          "label": "护持一名同伴",
+          "description": "把本轮行动用来保护别人，抵挡一次异常接触；不能代替对方违抗指令。",
+          "targetMode": "player"
+        }
+      ],
+      "defaultActionId": "verify_echo",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "knock",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "你们一直没有答应旅馆。出口却仍会回声，像在等待最后一次确认。",
+          "durationMs": 1800
+        }
+      ]
+    },
+    {
+      "id": "final_exit",
+      "title": "门外是你们来时的雨",
+      "narrative": "第七次广播开始报退房名单。门外是雨，门内的影子却还没站齐。",
+      "dilemma": "共同查验再离开、直接离开，还是留下控制异常？",
+      "hint": "查验能阻止异常随本人离开；直接离开可能把它带出去。留守者达到半数可封闭旅馆。",
+      "minRound": 7,
+      "maxRound": 7,
+      "priority": 100,
+      "weight": 1,
+      "tags": [
+        "final"
+      ],
+      "requiresFacts": [],
+      "absentFacts": [],
+      "actions": [
+        {
+          "id": "verify_leave",
+          "label": "查验后离开",
+          "description": "登记和门禁均查明，且至少两人查验时，可补全边界验证。未通过查验者留在旅馆。",
+          "targetMode": "none"
+        },
+        {
+          "id": "direct_leave",
+          "label": "直接离开",
+          "description": "边界条件满足即可离开，但可能把自己未察觉的异常带出去。",
+          "targetMode": "none"
+        },
+        {
+          "id": "stay",
+          "label": "留下控制异常",
+          "description": "不离开。至少半数人留守能封住旅馆，保护外面的人。",
+          "targetMode": "none"
+        }
+      ],
+      "defaultActionId": "stay",
+      "cues": [
+        {
+          "id": "arrival",
+          "kind": "sound",
+          "sound": "heartbeat",
+          "durationMs": 600
+        },
+        {
+          "id": "scene",
+          "kind": "text",
+          "text": "第七次广播开始报退房名单。门外是雨，门内的影子却还没站齐。",
+          "durationMs": 1800
+        }
+      ]
+    }
+  ],
+  "instructionTemplates": [
+    {
+      "id": "another_answers",
+      "view": {
+        "title": "门认得你",
+        "text": "本轮至少另一人回应房门，而你不能回应。你可以坦白，也可以拒绝。",
+        "warning": "如果没有做到，门内的东西会记住你的声音。"
+      }
+    },
+    {
+      "id": "nobody_answers",
+      "view": {
+        "title": "别把它叫出来",
+        "text": "本轮不能有人回应房门。你无法禁止别人，只能讨论或承担代价。",
+        "warning": "若有人回应，你会听到门内的声音出现在自己身后。"
+      }
+    },
+    {
+      "id": "protect_other",
+      "view": {
+        "title": "它不想你洗掉名字",
+        "text": "本轮你必须护持另一人，而不是为自己净化。你可以拒绝。",
+        "warning": "违抗后，水面会留下你的另一张脸。"
+      }
+    },
+    {
+      "id": "answer_call",
+      "view": {
+        "title": "把它的话接下去",
+        "text": "本轮回应广播。其他人不必服从；你也可以违抗。",
+        "warning": "不回应时，广播会在你的脑中继续。"
+      }
+    }
+  ]
+}
