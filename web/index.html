@@ -1,0 +1,780 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#131a23"><meta name="color-scheme" content="dark">
+<title>诡境 · 围坐，听一个秘密</title>
+<style>
+:root {
+  --bg: #131a23;
+  --panel: #1b2530;
+  --raised: #263340;
+  --line: #364350;
+  --text: #f2ede4;
+  --muted: #a9b2bb;
+  --gold: #ccb789;
+  --red: #d49a87;
+  --green: #a3bca7;
+  --paper: #e7dfcf;
+  --ink: #29303a;
+  --serif: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+  --sans: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.8 var(--sans); min-height: 100vh; }
+
+button, input, select, textarea { font: inherit; }
+button, a, input, select, summary { touch-action: manipulation; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; min-height: 46px; border: 1px solid var(--line); border-radius: 5px; padding: 10px 18px; background: var(--raised); color: var(--text); transition: background .15s, border-color .15s; }
+button:hover { background: #324251; border-color: #64717c; }
+button:disabled { opacity: .46; cursor: default; }
+.primary { background: var(--gold); color: #1b242d; border-color: var(--gold); font-weight: 600; }
+.primary:hover { background: #dfccaa; border-color: #dfccaa; }
+.ghost { background: transparent; }
+.danger { color: var(--red); }
+a { color: var(--gold); text-underline-offset: 4px; }
+a.button { display: inline-flex; align-items: center; justify-content: center; text-decoration: none; min-height: 46px; border: 1px solid var(--line); border-radius: 5px; padding: 10px 18px; color: var(--text); }
+a.button:hover { border-color: var(--muted); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline: 2px solid var(--gold); outline-offset: 4px; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 500; line-height: 1.45; }
+h1 { font-size: clamp(38px, 5vw, 68px); letter-spacing: .03em; }
+h2 { font-size: 28px; }
+h3 { font-size: 21px; }
+p + p { margin-top: 12px; }
+small, .small { font-size: 13px; color: var(--muted); }
+.muted { color: var(--muted); }
+.eyebrow { color: var(--muted); font: 13px/1.6 var(--sans); margin-bottom: 12px; letter-spacing: .03em; }
+.row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.between { justify-content: space-between; }
+.stack > * + * { margin-top: 20px; }
+.tight > * + * { margin-top: 10px; }
+.fill { width: 100%; }
+.hidden { display: none !important; }
+.app { max-width: 1376px; margin: auto; padding: 26px 48px 90px; }
+.masthead { border-bottom: 1px solid var(--line); padding-bottom: 20px; margin-bottom: 30px; min-height: 54px; }
+.brand { display: inline-flex; align-items: center; gap: 16px; font-family: var(--serif); font-size: 26px; letter-spacing: .14em; color: var(--text); text-decoration: none; }
+.brand small { font: 12px var(--sans); letter-spacing: .04em; color: var(--muted); border-left: 1px solid #65717d; padding-left: 16px; }
+.status { display: inline-flex; align-items: center; font-size: 12px; color: var(--green); }
+.status::before { content: ""; display: inline-block; width: 6px; height: 6px; margin-right: 7px; border-radius: 50%; background: currentColor; }
+.status.off { color: var(--red); }
+.card { border: 1px solid var(--line); border-radius: 7px; background: var(--panel); padding: 24px; }
+.hero { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; padding: 16px 0 44px; min-height: 420px; }
+.hero-text { max-width: 560px; }
+.hero h1 { margin-bottom: 26px; }
+.hero p { color: #bbc2c9; max-width: 440px; font-size: 17px; line-height: 1.95; }
+.hero .eyebrow { font-size: 14px; color: var(--gold); margin-bottom: 22px; }
+.hero-note { margin-top: 25px; display: flex; gap: 24px; color: var(--muted); font-size: 13px; }
+.hero-note span + span { position: relative; }
+.hero-note span + span::before { position: absolute; content: ""; width: 3px; height: 3px; background: var(--muted); border-radius: 50%; top: 11px; left: -13px; }
+.scene { height: 380px; position: relative; margin: 0; display: grid; place-items: center; isolation: isolate; }
+.letter { position: absolute; width: min(86%, 350px); min-height: 290px; top: 10px; padding: 26px 30px 65px; color: var(--ink); background: var(--paper); transform: rotate(-5deg); border: 1px solid #d0c5af; box-shadow: 12px 16px 0 #0d141a44, 0 18px 40px #0003; animation: letter-enter .65s ease-out both; }
+.letter-address { font-size: 12px; letter-spacing: .1em; color: #59615f; padding-bottom: 18px; border-bottom: 1px solid #bcb5a5; }
+.letter h2 { font-size: 37px; margin: 15px 0 12px; letter-spacing: .09em; }
+.letter p { color: #535b59; font-family: var(--serif); font-size: 15px; line-height: 1.9; }
+.letter-foot { font-size: 11px; color: #59615f; margin-top: 18px; }
+.envelope { position: absolute; bottom: 20px; width: min(96%, 420px); height: 145px; background: #a99b82; border: 1px solid #978a72; box-shadow: 0 15px 28px #0003; transform: rotate(2deg); }
+.envelope::before { content: ""; position: absolute; inset: 0; background: #b6a88f; clip-path: polygon(0 0, 50% 70%, 100% 0, 100% 100%, 0 100%); }
+.envelope::after { content: ""; position: absolute; inset: 0; background: #c3b599; clip-path: polygon(0 100%, 50% 22%, 100% 100%); }
+.envelope-seal { position: absolute; z-index: 1; width: 50px; height: 50px; border: 1px solid #743f34; outline: 3px solid #995b46; background: #995b46; border-radius: 50%; color: #ead6bc; font: 25px/48px var(--serif); text-align: center; left: calc(50% - 25px); top: 56px; box-shadow: 2px 3px 7px #1b171633; }
+.scene-caption { position: absolute; bottom: -17px; font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+.home-grid { display: grid; grid-template-columns: 1.25fr 1fr; gap: 34px; padding-top: 25px; border-top: 1px solid var(--line); }
+.story-card { background: transparent; border: 0; padding: 6px 34px 8px 0; border-right: 1px solid var(--line); border-radius: 0; }
+.story-card h2 { margin-bottom: 14px; font-size: 29px; }
+.story-card select { margin-bottom: 24px; }
+.story-card .description { max-width: 540px; font-size: 15px; }
+.story-card .case-meta { margin: 17px 0 22px; font-size: 13px; color: var(--muted); }
+.story-card .form-actions { margin-top: 20px; }
+.story-card .primary { min-width: 160px; }
+.join-home { background: transparent; border: 0; padding: 6px 0 8px; }
+.join-home h2 { font-size: 26px; }
+.join-home .form-actions { margin-top: 12px; }
+#room-input { font-size: 22px; letter-spacing: .16em; font-variant-numeric: tabular-nums; }
+label { display: block; font-size: 14px; color: var(--muted); margin-bottom: 7px; }
+input, select, textarea { width: 100%; border: 1px solid #53606b; border-radius: 4px; background: #151e28; color: var(--text); padding: 12px 14px; min-height: 48px; }
+input::placeholder, textarea::placeholder { color: #9aa5af; }
+input[type=radio] { width: 19px; min-height: 19px; height: 19px; accent-color: var(--gold); flex-shrink: 0; }
+.field + .field { margin-top: 16px; }
+.form-actions { margin-top: 22px; display: flex; gap: 12px; flex-wrap: wrap; }
+.phase { display: flex; gap: 12px; align-items: flex-start; padding: 0; margin: 0 0 27px; list-style: none; }
+.phase li { flex: 1; border-top: 2px solid #34404c; padding-top: 10px; font-size: 12px; color: #a2abb6; }
+.phase li.active { color: var(--gold); border-color: var(--gold); }
+.phase li.done { color: #c3cacd; border-color: #6e7d86; }
+.phase li[aria-current=step] { font-weight: 600; }
+.game-head { margin-bottom: 25px; }
+.game-head h1 { font-size: clamp(29px, 3vw, 39px); letter-spacing: .02em; margin-bottom: 9px; }
+.stage-note { color: var(--muted); max-width: 780px; font-size: 15px; }
+.host-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.stage-meter { flex-shrink: 0; text-align: right; color: var(--muted); font-size: 12px; }
+.stage-meter strong { display: block; color: var(--text); font: 27px/1.3 var(--serif); font-variant-numeric: tabular-nums; }
+.host-grid { display: grid; grid-template-columns: minmax(0, 1fr) 280px; gap: 28px; align-items: start; }
+.host-main > * + *, .sidebar > * + * { margin-top: 22px; }
+.host-main { min-width: 0; }
+.host-message { border-left: 3px solid var(--gold); border-radius: 0 5px 5px 0; background: #1b2530; }
+.host-message h2 { font-size: 24px; }
+.host-message .eyebrow { color: var(--muted); }
+.host-lobby { display: grid; grid-template-columns: minmax(0, 1fr) 335px; gap: 30px; }
+.lobby-letter { padding: 26px 30px; border: 1px solid var(--line); background: #1a2430; }
+.lobby-letter .scene { height: 295px; max-width: 440px; margin: 0 auto 26px; }
+.lobby-letter .letter { min-height: 235px; width: 290px; top: 0; padding-top: 20px; }
+.lobby-letter .letter h2 { font-size: 31px; }
+.lobby-letter .letter-foot { display: none; }
+.lobby-letter .envelope { width: 340px; height: 115px; bottom: 0; }
+.lobby-letter .envelope-seal { top: 42px; }
+.lobby-letter .scene-caption { display: none; }
+.lobby-letter h2 { margin-bottom: 12px; }
+.lobby-players { margin-top: 20px; }
+.roomcode { font-size: 30px; letter-spacing: .15em; color: var(--gold); font-variant-numeric: tabular-nums; }
+.qr { display: block; width: 100%; max-width: 224px; aspect-ratio: 1; margin: 18px auto; background: white; border: 8px solid white; border-radius: 3px; }
+.join-card { background: #202b37; }
+.join-card .room-label { font-size: 12px; color: var(--muted); margin-bottom: 2px; }
+.join-card h3 { font-size: 23px; }
+.join-card select { font-size: 12px; min-height: 44px; padding: 9px; }
+.join-url { font-size: 12px; overflow-wrap: anywhere; display: block; line-height: 1.7; margin-top: 10px; }
+.join-actions { display: grid; gap: 9px; margin-top: 16px; }
+.join-actions button, .join-actions a { font-size: 13px; }
+.players { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; margin-top: 18px; }
+.seat { background: #18222d; border: 1px solid #394653; border-radius: 4px; padding: 13px; min-width: 0; }
+.seat.empty { border-style: dashed; background: transparent; min-height: 81px; }
+.seat strong { font-size: 16px; font-weight: 500; display: block; overflow-wrap: anywhere; }
+.seat small { display: block; font-size: 12px; overflow-wrap: anywhere; }
+.seat .state { font-size: 12px; color: var(--gold); margin-top: 8px; }
+.seat.is-ready .state { color: var(--green); }
+.seat .remove { padding: 0 5px; margin-top: 6px; font-size: 12px; min-height: 44px; }
+.sidebar .players { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.sidebar .card { padding: 19px; }
+.connection-dot { font-size: 11px; color: #adb5be; }
+.connection-dot.on { color: var(--green); }
+.notice { padding: 14px 17px; border-left: 2px solid var(--gold); background: #ccb7890b; border-radius: 0 4px 4px 0; font-size: 14px; color: #ddd8c9; }
+.notice.warn { border-color: var(--red); color: #eac2b4; background: #b46e5b0b; }
+.prose { white-space: pre-line; line-height: 1.95; font-size: 17px; }
+.intro-letter { font-family: var(--serif); font-size: 20px; line-height: 1.9; }
+.anchors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 22px; padding-top: 17px; border-top: 1px solid var(--line); }
+.anchor b { font: 23px/1.4 var(--serif); font-variant-numeric: tabular-nums; color: var(--gold); display: block; }
+.anchor small { font-size: 12px; display: block; margin-top: 4px; }
+.section-title { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 27px 0 14px; }
+.section-title h2, .section-title h3 { font-size: 23px; }
+.count { font: 12px var(--sans); color: var(--muted); flex-shrink: 0; }
+.evidence-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 13px; align-items: start; }
+.evidence { --text: #29303a; --muted: #5b625f; --line: #bcb7a8; --gold: #78543b; color: var(--text); border: 1px solid #c6bdab; border-radius: 3px; background: var(--paper); overflow: hidden; overflow-wrap: anywhere; }
+.evidence summary { padding: 15px 16px; cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 96px; }
+.evidence summary::-webkit-details-marker { display: none; }
+.evidence summary::after { content: "+"; font-size: 20px; font-weight: 300; color: #6c6659; flex-shrink: 0; }
+.evidence[open] summary::after { content: "−"; }
+.evidence summary strong { font-weight: 600; font-size: 16px; }
+.ev-id { color: #59615f; font: 11px/1.6 var(--sans); display: block; margin-bottom: 7px; }
+.ev-body { padding: 0 16px 18px; white-space: pre-line; color: #303a40; font-size: 15px; line-height: 1.95; }
+.ev-body .row { margin-top: 16px; }
+.ev-body button { background: #d4cbbc; color: #26313b; border-color: #b7ae9c; font-size: 13px; padding: 8px 11px; }
+.ev-body button:hover { background: #c7bdac; }
+.ev-body .ghost { background: transparent; }
+.private-hint { margin-top: 16px; border-top: 1px dashed #aaa58f; padding-top: 12px; color: #754a39; font-size: 13px; }
+.question { margin-top: 14px; font-size: 14px; color: #515d60; }
+.locations { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.location { display: grid; grid-template-columns: 29px minmax(0, 1fr); align-content: start; gap: 6px 12px; text-align: left; padding: 17px 15px; border-color: #485561; min-height: 118px; background: #1e2a36; }
+.location:not(:has(.place-icon)) { display: block; }
+.location:not(:has(.place-icon)) small { margin-top: 7px; }
+.location:hover { border-color: var(--gold); background: #2b3743; }
+.location .place-icon { width: 24px; height: 24px; color: var(--gold); grid-row: 1/4; align-self: center; }
+.location .number { color: #a8b1bb; font-size: 11px; }
+.location strong { display: block; font-size: 17px; font-weight: 500; }
+.location small { display: block; font-size: 12px; line-height: 1.6; }
+.phone { max-width: 660px; margin: auto; }
+.phone .card { padding: 23px; }
+.phone .evidence-grid { grid-template-columns: 1fr; }
+.phone .prose { font-size: 16px; }
+.phone .game-head .eyebrow { margin-bottom: 9px; color: var(--gold); }
+.role-card { --text: #29303a; --muted: #59615f; --line: #beb7a8; --gold: #78543b; --raised: #d9d1c2; background: var(--paper); color: var(--text); border: 1px solid #cbc1af; border-radius: 3px; position: relative; }
+.role-card::before { content: ""; height: 5px; background: #b46e5b; position: absolute; top: -1px; left: 22px; right: 22px; }
+.role-card .eyebrow { color: #59615f; padding-bottom: 14px; border-bottom: 1px solid #beb7a8; }
+.role-card .primary { background: #263440; border-color: #263440; color: #f2ede4; }
+.role-card .primary:hover { background: #3c4d59; }
+.role-card .notice { background: #d9d1c2; color: #35413e; }
+.role-card .notice small { color: #59615f; }
+.private-badge { font-size: 12px; color: #4c5b61; border: 1px solid #8b9390; padding: 3px 9px; border-radius: 3px; white-space: nowrap; }
+.private-badge.culprit { color: #7d3f32; border-color: #ac7864; background: #b46e5b0c; }
+.role-name { font-size: 38px; margin: 8px 0; }
+.role-intro { margin: 15px 0; color: var(--muted); }
+.dossier-part + .dossier-part { margin-top: 25px; }
+.dossier-part h3 { font: 600 14px/1.6 var(--sans); color: var(--gold); margin-bottom: 9px; }
+.dossier-part p { font-size: 16px; line-height: 1.95; }
+.tabs { position: fixed; bottom: 0; left: 0; right: 0; z-index: 20; display: flex; justify-content: center; gap: 8px; padding: 8px 18px calc(8px + env(safe-area-inset-bottom)); background: #131a23f7; border-top: 1px solid var(--line); backdrop-filter: blur(12px); }
+.tabs button { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; max-width: 185px; background: transparent; border: 0; border-radius: 0; color: #abb5be; font-size: 12px; padding: 7px 8px 5px; min-height: 52px; }
+.tabs button.active { color: var(--gold); background: #ccb78909; box-shadow: inset 0 2px var(--gold); }
+.tabs svg { width: 20px; height: 20px; }
+.action-box { margin-top: 24px; border-top: 1px solid var(--line); padding-top: 21px; }
+.action-box button { width: 100%; min-height: 50px; }
+.action-box small { display: block; text-align: center; margin-top: 10px; font-size: 12px; }
+.ready-note { color: var(--green); font-size: 14px; margin-bottom: 11px; }
+.role-card .ready-note { color: #3b6651; }
+.rules { font-size: 14px; color: var(--muted); padding-left: 21px; }
+.rules li + li { margin-top: 11px; }
+details.plain { border-top: 1px solid var(--line); padding-top: 12px; margin-top: 18px; }
+details.plain > summary { cursor: pointer; color: var(--muted); font-size: 14px; min-height: 44px; display: flex; align-items: center; gap: 10px; }
+details.plain > summary::before { content: "+"; color: var(--gold); }
+details.plain[open] > summary::before { content: "−"; }
+details.plain > summary::-webkit-details-marker { display: none; }
+.records { display: grid; gap: 10px; }
+.record { font-size: 14px; padding: 13px 17px; border-left: 2px solid #7b8a97; background: #202b36; overflow-wrap: anywhere; }
+.record b { font-weight: 500; color: var(--gold); }
+.record p { color: #d0d6da; }
+.radio-option { display: flex; align-items: flex-start; gap: 12px; border: 1px solid #52606b; border-radius: 4px; padding: 14px; margin-bottom: 11px; color: var(--text); font-size: 15px; cursor: pointer; min-height: 52px; }
+.radio-option input { margin-top: 5px; }
+.radio-option:has(input:checked) { border-color: var(--gold); background: #ccb7890c; }
+.vote-form fieldset { border: 0; margin: 0 0 25px; padding: 0; }
+.vote-form legend { font-size: 19px; margin-bottom: 15px; font-family: var(--serif); }
+.vote-form .preview { font-size: 13px; color: var(--muted); border-left: 1px solid var(--gold); padding-left: 15px; margin-top: 15px; line-height: 1.9; }
+.results-title { font-size: 39px; color: var(--gold); margin-bottom: 15px; }
+.timeline { border-left: 1px solid var(--line); padding-left: 22px; margin-top: 20px; }
+.timeline-item { position: relative; margin-bottom: 22px; }
+.timeline-item::before { content: ""; position: absolute; left: -26px; top: 10px; width: 7px; height: 7px; border-radius: 50%; background: var(--gold); }
+.timeline-item b { color: var(--gold); font-size: 14px; }
+.timeline-item p { font-size: 14px; }
+.end-person { padding: 20px 0; border-top: 1px solid var(--line); }
+.end-person h3 { font-size: 22px; margin-bottom: 9px; }
+.end-person p { font-size: 14px; color: var(--muted); }
+.tag { font-size: 12px; border: 1px solid var(--line); padding: 3px 9px; border-radius: 3px; color: var(--muted); }
+.demo-bar { position: sticky; top: 0; z-index: 30; background: #263240f7; border: 1px solid #65717d; border-radius: 5px; padding: 14px 18px; margin-bottom: 25px; backdrop-filter: blur(12px); }
+.demo-bar select { width: auto; min-width: 130px; font-size: 14px; padding: 8px; min-height: 44px; }
+.demo-bar button { font-size: 13px; padding: 9px 12px; }
+.demo-grid { display: grid; grid-template-columns: minmax(0, 1fr) 380px; gap: 27px; align-items: start; }
+.demo-grid .host-grid { grid-template-columns: 1fr; }
+.demo-grid .host-lobby { grid-template-columns: 1fr; }
+.demo-grid .host-lobby > .join-card, .demo-grid .sidebar { display: none; }
+.demo-grid .phone-pane { max-height: calc(100dvh - 240px); overflow-y: auto; position: sticky; top: 104px; scrollbar-color: #63717e #111923; scrollbar-width: thin; border: 1px solid #5a6874; background: #111923; border-radius: 17px; padding: 17px; min-height: min(560px, calc(100dvh - 240px)); }
+.pane-label { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 12px; color: var(--muted); margin-bottom: 18px; border-bottom: 1px solid var(--line); padding-bottom: 13px; }
+.demo-grid .phone-pane .tabs { position: sticky; top: -17px; z-index: 2; padding: 0; margin-bottom: 20px; background: #111923; backdrop-filter: none; border-top: 0; border-bottom: 1px solid var(--line); }
+.demo-grid .phone-pane .tabs button { font-size: 12px; padding: 8px 4px; }
+.demo-grid .phone-pane .game-head h1 { font-size: 26px; }
+.demo-grid .phone-pane .players { grid-template-columns: repeat(2, 1fr); }
+.demo-grid .phone-pane .anchors { gap: 8px; }
+.demo-grid .phone-pane .anchor b { font-size: 18px; }
+.demo-grid .phone-pane .anchor small { font-size: 11px; }
+.demo-grid .phone-pane .card { padding: 18px; }
+.demo-grid .phone-pane .role-name { font-size: 33px; }
+.demo-grid .phone-pane .host-heading { display: block; }
+.toast { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 100; max-width: calc(100vw - 28px); width: max-content; background: #34303a; border: 1px solid #b28a76; padding: 13px 19px; border-radius: 5px; color: #ffe9df; box-shadow: 0 10px 30px #0005; font-size: 14px; }
+.empty-copy { padding: 27px 20px; color: #bac2ca; border: 1px dashed #5b6670; border-radius: 4px; font-size: 14px; line-height: 1.9; }
+.footer-note { font-size: 12px; color: var(--muted); margin-top: 35px; padding-top: 18px; border-top: 1px solid var(--line); display: flex; gap: 18px; flex-wrap: wrap; justify-content: space-between; }
+.join-page { max-width: 480px; margin: 42px auto; }
+.join-page h1 { font-size: 40px; margin-bottom: 18px; }
+.join-page .card { margin-top: 25px; border-top: 3px solid var(--gold); }
+.join-page .room-invite { display: inline-flex; gap: 12px; align-items: center; font-size: 13px; color: var(--muted); margin-bottom: 15px; }
+.join-page .room-invite b { color: var(--gold); font-weight: 500; font-size: 18px; font-variant-numeric: tabular-nums; letter-spacing: .15em; }
+.loading { padding: 100px 20px; text-align: center; color: var(--muted); }
+.error-card { max-width: 560px; margin: 60px auto; }
+dialog { max-width: 480px; width: calc(100% - 36px); background: var(--panel); color: var(--text); border: 1px solid #62727e; border-radius: 7px; padding: 26px; }
+dialog::backdrop { background: #060c13b8; }
+.hint-request { margin-top: 16px; }
+.screen-briefing > h2:not(:first-child) { margin-top: 30px; }
+.screen-briefing > .prose { margin-top: 12px; max-width: 42em; }
+.public-relations { display: grid; grid-template-columns: repeat(var(--participants,3),minmax(0,1fr)); gap: 20px; margin-top: 16px; }
+.public-relations section { border-top: 1px solid var(--line); padding-top: 12px; }
+.public-relations p { color: var(--muted); font-size: 15px; margin-top: 9px; }
+.private-action .role-card { padding: 24px; }
+.single-purpose { margin: 24px 0; padding: 16px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.single-purpose p { font-size: 13px; color: var(--muted); }
+.single-purpose h2 { font-size: 26px; margin-top: 6px; }
+.action-facts { padding-left: 22px; margin: 14px 0 24px; }
+.action-facts li + li { margin-top: 10px; }
+.current-direction { border-left: 2px solid var(--gold); padding-left: 16px; margin-bottom: 24px; }
+.current-direction p { margin-top: 8px; }
+.private-action .plain { margin-top: 20px; }
+.paper-reasons { list-style: none; padding: 0; }
+.paper-reasons li { display: flex; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+.paper-reasons b { color: var(--gold); }
+.paper-form fieldset { border: 1px solid var(--line); padding: 16px; min-width: 0; }
+.paper-form legend { padding: 0 8px; }
+.paper-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.paper-fields > div { min-width: 0; }
+.paper-confirm { display: flex; align-items: flex-start; gap: 12px; }
+.paper-confirm input { width: 20px; height: 20px; min-height: 20px; flex-shrink: 0; margin: 4px 0; accent-color: var(--gold); }
+#print-ballots { display: none; }
+@media(max-width:760px) { .public-relations,.paper-fields { grid-template-columns: 1fr; } .private-action .role-card { padding: 20px; } }
+@media print {
+  @page { size: A4; margin: 14mm; }
+  body { background: white; color: black; font-size: 12pt; line-height: 1.5; }
+  body > * { display: none !important; }
+  body > #print-ballots { display: block !important; }
+  #print-ballots article { padding: 5mm 0; border-bottom: 1px dashed #777; break-inside: avoid; }
+  #print-ballots h2 { font-size: 17pt; line-height: 1.3; }
+  #print-ballots p { margin-top: 3mm; }
+  #print-ballots small { color: #333; font-size: 9pt; }
+}
+@keyframes letter-enter { from { translate: 0 10px; } to { translate: 0 0; } }
+@media (min-width: 1600px) { .app { max-width: 1480px; padding-top: 35px; } .hero { min-height: 460px; } .hero h1 { font-size: 76px; } .scene { height: 410px; } .host-grid { grid-template-columns: minmax(0, 1fr) 300px; } }
+@media (max-width: 1100px) { .app { padding: 24px 30px 90px; } .hero { gap: 26px; } .hero h1 { font-size: 56px; } .host-grid { grid-template-columns: minmax(0, 1fr) 255px; gap: 20px; } .host-main .evidence-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .host-lobby { gap: 20px; grid-template-columns: minmax(0, 1fr) 300px; } .demo-grid { grid-template-columns: minmax(0, 1fr) 350px; gap: 18px; } .demo-grid .phase { gap: 6px; } .demo-grid .phase li { font-size: 11px; } .demo-grid .stage-meter { display: none; } }
+@media (max-width: 760px) {
+  body::before { border-width: 0; }
+  .app { padding: 18px 18px 105px; }
+  .masthead { padding-bottom: 15px; margin-bottom: 24px; min-height: 47px; }
+  .brand { font-size: 24px; }
+  .brand small { display: none; }
+  .masthead > .small { max-width: 180px; text-align: right; font-size: 12px; }
+  .hero { grid-template-columns: 1fr; min-height: 0; padding: 0 0 32px; gap: 24px; }
+  .hero h1 { font-size: 45px; margin-bottom: 18px; }
+  .hero .eyebrow { margin-bottom: 14px; }
+  .hero p { font-size: 15px; }
+  .hero-note { margin-top: 18px; gap: 22px; font-size: 12px; }
+  .scene { height: 315px; max-width: 420px; width: 100%; margin: auto; }
+  .letter { min-height: 240px; width: 80%; top: 2px; padding: 20px 24px 55px; }
+  .letter-address { padding-bottom: 12px; font-size: 11px; }
+  .letter h2 { font-size: 31px; margin: 12px 0; }
+  .letter p { font-size: 14px; }
+  .letter-foot { display: none; }
+  .envelope { height: 116px; width: 94%; bottom: 13px; }
+  .envelope-seal { width: 42px; height: 42px; font-size: 22px; line-height: 40px; left: calc(50% - 21px); top: 44px; }
+  .scene-caption { bottom: -11px; font-size: 11px; }
+  .home-grid { grid-template-columns: 1fr; gap: 26px; padding-top: 24px; }
+  .story-card { padding: 0 0 25px; border-right: 0; border-bottom: 1px solid var(--line); }
+  .story-card h2 { font-size: 27px; }
+  .story-card .form-actions { flex-direction: column; gap: 10px; }
+  .story-card .form-actions button { width: 100%; }
+  .join-home { padding: 0; }
+  .join-home h2 { font-size: 26px; }
+  .host-grid, .host-lobby, .demo-grid { grid-template-columns: 1fr; }
+  .host-grid > .sidebar { order: -1; }
+  .host-grid .sidebar .invitation { display: none; }
+  .host-grid .sidebar .players { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .host-grid .sidebar .players-card { padding: 16px; }
+  .host-grid .sidebar > .danger { display: none; }
+  .host-lobby .join-card { order: -1; }
+  .host-lobby .lobby-letter { padding: 21px 18px; }
+  .lobby-letter .scene { height: 270px; }
+  .lobby-letter .letter { width: 78%; }
+  .lobby-letter .envelope { width: 94%; }
+  .game-head { margin-bottom: 21px; }
+  .game-head h1 { font-size: 29px; }
+  .stage-note { font-size: 14px; line-height: 1.85; }
+  .host-heading { gap: 12px; }
+  .host-heading .stage-meter { display: none; }
+  .phase { gap: 6px; margin-bottom: 23px; }
+  .phase li { font-size: 10px; padding-top: 8px; }
+  .card, .phone .card { padding: 20px; }
+  .players { gap: 8px; }
+  .seat { padding: 10px; }
+  .seat strong { font-size: 14px; }
+  .seat small, .seat .state { font-size: 11px; }
+  .connection-dot { font-size: 10px; }
+  .prose { font-size: 16px; }
+  .intro-letter { font-size: 18px; }
+  .anchors { gap: 10px; margin-top: 17px; padding-top: 15px; }
+  .anchor b { font-size: 21px; }
+  .anchor small { font-size: 11px; line-height: 1.7; }
+  .evidence-grid, .host-main .evidence-grid { grid-template-columns: 1fr; }
+  .evidence summary { min-height: 89px; }
+  .section-title h2, .section-title h3 { font-size: 22px; }
+  .role-name { font-size: 36px; }
+  .dossier-part + .dossier-part { margin-top: 23px; }
+  .role-card .notice { padding: 13px 14px; }
+  .dossier-part p { font-size: 16px; line-height: 1.95; }
+  .locations { gap: 10px; }
+  .location { grid-template-columns: 1fr; gap: 4px; padding: 14px; min-height: 138px; }
+  .location .place-icon { grid-row: auto; height: 21px; width: 21px; margin-bottom: 4px; }
+  .location strong { font-size: 16px; }
+  .location small { font-size: 12px; }
+  .demo-bar { position: static; padding: 14px; }
+  .demo-bar > .row { gap: 15px; }
+  .demo-bar select { flex: 1; min-width: 120px; }
+  .demo-bar .row > .row { width: 100%; }
+  .demo-grid .phone-pane { order: -1; min-height: 0; max-height: none; overflow: visible; position: static; padding: 14px; }
+  .demo-grid .phone-pane .tabs { position: static; }
+  .demo-grid .host-pane { border-top: 1px solid var(--line); padding-top: 20px; }
+  .demo-grid .host-grid .sidebar { display: none; }
+  .demo-grid .phone-pane .anchors { gap: 8px; }
+  .join-page { margin-top: 25px; }
+  .join-page h1 { font-size: 35px; }
+  .row.mobile-stack { display: block; }
+  .mobile-stack > * + * { margin-top: 12px; }
+  .roomcode { font-size: 29px; }
+  .results-title { font-size: 32px; }
+  .footer-note { display: block; margin-top: 28px; }
+  .footer-note span { display: block; margin-top: 7px; }
+}
+@media (max-width: 350px) { .app { padding-left: 13px; padding-right: 13px; } .role-name { font-size: 31px; } .phone .card { padding: 17px; } .hero h1 { font-size: 40px; } .private-badge { font-size: 11px; padding: 3px 7px; } .locations { gap: 8px; } }
+@media (min-width: 1100px) and (max-height: 850px) {
+  .public-view { padding-top: 20px; padding-bottom: 35px; }
+  .public-view .masthead { margin-bottom: 19px; padding-bottom: 14px; }
+  .public-view .phase { margin-bottom: 18px; }
+  .public-view .phase li { padding-top: 7px; }
+  .public-view .game-head { margin-bottom: 20px; }
+  .public-view .game-head h1 { font-size: 32px; }
+  .public-view .host-message { padding: 18px 20px; }
+  .public-view .host-message h2 { font-size: 21px; }
+  .public-view .anchors { margin-top: 15px; padding-top: 12px; }
+  .public-view .anchor b { font-size: 21px; }
+  .public-view .sidebar .card { padding: 15px; }
+  .public-view .seat { padding: 10px; }
+  .public-view .seat strong { font-size: 15px; }
+  .public-view .seat small { font-size: 11px; }
+  .public-view .seat .state { margin-top: 4px; }
+  .public-view .players { margin-top: 13px; }
+  .public-view .evidence summary { min-height: 82px; padding: 12px 14px; }
+  .public-view .evidence summary strong { font-size: 15px; }
+  .public-view .section-title { margin-top: 20px; }
+  .public-view .stage-note { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+</style>
+</head>
+<body><div id="app" class="app"><p class="loading">正在打开卷宗…</p></div><div id="toast" class="toast hidden" role="alert"></div>
+<dialog id="confirm"><h2 id="confirm-title"></h2><p class="muted" id="confirm-text" style="margin-top:15px"></p><div class="form-actions"><button id="confirm-cancel">取消</button><button class="primary" id="confirm-ok">继续</button></div></dialog>
+<script type="module">
+const $ = s => document.querySelector(s);
+const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const app = $('#app');
+let info, state, code, token, hostToken, demoPlayers = [], demoIndex = 0, source, tab = 'current', busy = false, connected = false, lanBase = '', toastTimer;
+const drafts = new Map();
+const investigatorSelections = new Map();
+let selectedStoryId;
+const query = new URLSearchParams(location.search);
+const demo = query.has('demo');
+const hostMode = query.get('screen') === 'host';
+let lastStage, renderedViewKey;
+const stageLabels = {dossier:'读角色',opening:'开场',search1:'初查',search2:'深查',confrontation:'对质',vote:'指认',ended:'揭晓'};
+const personName = id => { const p = state?.public.players.find(p => p.id === id); return p ? `${p.nickname}${p.role ? `（${p.role.brief}）` : ''}` : '玩家'; };
+const roleName = id => state.public.players.find(p => p.role?.id === id)?.role.name || id;
+const countWord = n => ['零','一','二','三','四','五','六','七','八'][n] || String(n);
+const locationName = id => state.public.locations.find(l => l.id === id)?.name || id;
+function notify(message) { clearTimeout(toastTimer); $('#toast').textContent = message; $('#toast').classList.remove('hidden'); toastTimer = setTimeout(() => $('#toast').classList.add('hidden'), 5000); }
+function storageKey(mode, room) { return `sr:${mode}:${room}`; }
+function remember(mode, room, value) { localStorage.setItem(storageKey(mode, room), JSON.stringify(value)); localStorage.setItem(`sr:last:${mode}`, room); }
+function recalled(mode, room) { try { return JSON.parse(localStorage.getItem(storageKey(mode, room)) || 'null'); } catch { return null; } }
+async function api(path, { method = 'GET', body, credential } = {}) {
+  const response = await fetch(path, { method, headers: { ...(body ? {'Content-Type':'application/json'} : {}), ...(credential ? {Authorization:`Bearer ${credential}`} : {}) }, ...(body ? {body:JSON.stringify(body)} : {}) });
+  const result = await response.json(); if (!response.ok) { const error = new Error(result.error || '操作没有完成。'); error.status = response.status; throw error; } return result;
+}
+async function getState(credential = token) {
+  if(demo&&credential===token){const [shared,own]=await Promise.all([api(`/api/rooms/${code}/state`,{credential:hostToken}),api(`/api/rooms/${code}/state`,{credential})]);return {...shared,me:own.me};}
+  return api(`/api/rooms/${code}/state`, {credential});
+}
+function showFatal(message) { source?.close(); app.innerHTML = `${header()}<div class="card error-card stack"><h2>暂时无法进入</h2><p class="muted">${esc(message)}</p><a class="button" href="/">回到首页</a>${code && !hostMode && !demo ? '<button data-do="rejoin">重新填写昵称加入</button>' : ''}</div>`; }
+function setState(next) { const changed=lastStage!==undefined&&lastStage!==next.public.stageId; state=next; if(next.public.stage!=='vote')$('#print-ballots')?.remove(); if(lastStage!==next.public.stageId){tab='current';lastStage=next.public.stageId;} render();if(changed)window.scrollTo({top:0,behavior:'instant'}); }
+function connect() {
+  source?.close(); connected = false;
+  source = new EventSource(`/api/rooms/${code}/events?token=${encodeURIComponent(demo?hostToken:token)}`);
+  source.addEventListener('state', async event => {
+    connected = true;
+    if(!demo){setState(JSON.parse(event.data));return;}
+    const selected=token;
+    try{const next=await getState();if(selected===token&&(!state||next.public.revision>=state.public.revision))setState(next);}catch(error){notify(error.message);}
+  });
+  source.onopen = () => { connected = true; if (state) render(); };
+  source.onerror = () => { connected = false; if (state) render(); getState().catch(error => { if ([401,404].includes(error.status)) showFatal(error.message); }); };
+}
+function header() {
+  return `<header class="masthead row between">
+    <a href="/" class="brand">诡境<small>StrangeRealm</small></a>
+    ${code ? `<div class="row"><span class="small">房间 ${esc(code)}</span><span class="status ${connected?'':'off'}">${connected?'已连接':'正在重连'}</span></div>` : '<span class="small">公共屏上的案情，手机里的秘密。</span>'}
+  </header>`;
+}
+function icon(name, className='') {
+  const paths = {
+    study:'<path d="M5 21V3h13v18M3 21h18M14 12h.01"/>',
+    radio:'<rect x="3" y="7" width="18" height="14" rx="2"/><path d="m6 7 12-4M7 11h7M7 15h4"/><circle cx="17" cy="16" r="1.5"/>',
+    power:'<path d="m13 2-9 12h7l-1 8 10-13h-8l1-7Z"/>',
+    front:'<path d="M3 18h18M5 18a7 7 0 0 1 14 0M12 11V8M9 8h6M5 21h14"/>',
+    archive:'<path d="M3 8h18v13H3zM3 8V4h7l2 4M9 13h6M9 17h4"/>',
+    dining:'<path d="M4 14h16v7M7 14V4h10v10M3 21h3M18 21h3M7 9h10"/>',
+    current:'<circle cx="12" cy="12" r="9"/><path d="m15 9-2 4-4 2 2-4 4-2Z"/>',
+    dossier:'<path d="M5 3h10l4 4v14H5zM15 3v5h4M9 12h6M9 16h6"/>',
+    board:'<path d="M3 4h18v14H3zM7 22l5-4 5 4M7 8h3M7 12h3M14 8h3M14 12h3"/>'
+  };
+  return `<svg class="${esc(className)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">${paths[name]||paths.dossier}</svg>`;
+}
+function scene() {
+  const story=state?.public.story || info.stories.find(s=>s.id===selectedStoryId) || info.stories[0];
+  const excerpt=(story.tagline.match(/[^。！？]+[。！？]?/)||[story.tagline])[0];
+  return `<figure class="scene" aria-label="${esc(story.title)}的邀请信">
+    <div class="letter"><div class="letter-address">致今晚入席的诸位</div><h2>${esc(story.title)}</h2><p>${esc(excerpt)}</p></div>
+    <div class="envelope" aria-hidden="true"><span class="envelope-seal">诡</span></div>
+    <figcaption class="scene-caption">来信已送达。请各位入席。</figcaption>
+  </figure>`;
+}
+function home() {
+  const selectedStory=info.stories.find(s=>s.id===selectedStoryId)||info.stories[0];
+  selectedStoryId=selectedStory.id;
+  const recent=['h','p','d'].map(mode=>{
+    const room=localStorage.getItem(`sr:last:${mode}`);
+    return room&&recalled(mode,room)?`<button class="ghost" data-do="resume" data-room="${esc(room)}" data-mode="${mode}">继续${mode==='d'?'单人试玩':mode==='h'?'公共屏':'我的席位'} · ${esc(room)}</button>`:'';
+  }).join('');
+  app.innerHTML=`${header()}
+    <section class="hero">
+      <div class="hero-text"><p class="eyebrow">和朋友围坐，进入一场悬疑故事</p><h1>今晚，<br>谁在说谎？</h1><p>电脑展开案情，手机送来各自的秘密。<br>找到线索，问清行踪，听听对方怎么说。</p><div class="hero-note"><span>同一 Wi-Fi</span><span>面对面讨论</span><span>无倒计时</span></div></div>
+      ${scene()}
+    </section>
+    <section class="home-grid">
+      <div class="story-card"><form id="create-form">
+        ${info.stories.length>1?`<label for="story-select">选择今晚的故事</label><select id="story-select" name="storyId">${info.stories.map(story=>`<option value="${esc(story.id)}" ${story.id===selectedStoryId?'selected':''}>${esc(story.title)}</option>`).join('')}</select>`:`<input type="hidden" name="storyId" value="${esc(selectedStory.id)}">`}
+        <p class="eyebrow">发起一局</p><h2>${esc(selectedStory.title)}</h2><p class="muted description">${esc(selectedStory.description)}</p><p class="case-meta">${selectedStory.players}位玩家，${esc(selectedStory.duration)}</p>
+        <div class="form-actions"><button class="primary" type="submit">创建公共屏</button><button class="ghost" type="button" data-do="demo">一个人试完整流程</button></div>
+        <p class="small" style="margin-top:13px">单人试玩会揭示全部秘密，正式玩之前请勿查看。</p>
+      </form></div>
+      <form id="join-home" class="join-home"><p class="eyebrow">加入朋友的房间</p><h2 style="margin-bottom:18px">我收到房间码了</h2><label for="room-input">输入公共屏上的6位数字</label><input id="room-input" name="room" required inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="123456" autocomplete="off"><div class="form-actions"><button type="submit" class="fill">前往房间</button></div><p class="small" style="margin-top:12px">也可以用手机扫描公共屏的二维码。</p></form>
+    </section>
+    ${recent?`<div class="row" style="margin-top:24px">${recent}</div>`:''}
+    <footer class="footer-note"><span>公共电脑主持，手机保管秘密，朋友当面交流。</span><span>刷新页面可继续原来的席位。</span></footer>`;
+}
+async function joinPage() {
+  try {
+    const preview=await api(`/api/rooms/${code}/preview`);
+    app.innerHTML=`${header()}<div class="join-page stack"><div class="room-invite">你的邀请 <b>${esc(code)}</b></div><h1>${esc(preview.story.title)}</h1><p class="muted">${esc(preview.story.description)}</p><div class="card"><form id="join-form"><label for="nickname">朋友们怎么称呼你？</label><input name="nickname" id="nickname" maxlength="12" required placeholder="填写昵称" autocomplete="nickname" autofocus><div class="form-actions"><button class="primary fill" ${preview.stage!=='lobby'||preview.demo||preview.count>=preview.story.players?'disabled':''}>入席 · ${preview.count}/${preview.story.players}</button></div></form><p class="small" style="margin-top:16px">${preview.demo?'这是本机单人试玩房，不接受真实玩家。':preview.stage!=='lobby'?'本局已经开始，请使用原来加入的浏览器恢复席位。':'所有人到齐后，秘密档案会分别送到每个人的手机。'}</p></div><a href="/" class="small">返回首页</a></div>`;
+  } catch(error) { showFatal(error.message); }
+}
+function phase(pub) {
+  const keys=(pub.stageOrder||Object.keys(stageLabels)).filter(key=>key!=='lobby'), index=keys.indexOf(pub.stage);
+  return `<ol class="phase" aria-label="游戏阶段">${keys.map((key,i)=>`<li class="${key===pub.stage?'active':i<index?'done':''}" ${key===pub.stage?'aria-current="step"':''}>${esc(pub.flowVersion===2?({opening:'开场',dossier:'认识彼此',search1:'第一批发现',search2:'新的发现',vote:'指认',ended:'揭晓'}[key]||stageLabels[key]):stageLabels[key])}</li>`).join('')}</ol>`;
+}
+function players(pub,removable=false) {
+  return `<div class="players">${Array.from({length:pub.story.players},(_,i)=>{
+    const p=pub.players[i];
+    if(!p)return `<div class="seat empty"><small>席位 ${i+1}</small><strong>等一位朋友</strong></div>`;
+    const status=pub.flowVersion===2&&!['lobby','vote','ended','aborted'].includes(pub.stage)?'':pub.stage==='ended'?'故事已揭晓':pub.stage==='aborted'?'本局已中止':pub.stage==='vote'?(p.voted?'已提交':'思考中'):['search1','search2'].includes(pub.stage)?(p.ready?'讨论完成':p.searched?`已查${locationName(p.locationId)}`:'准备调查'):p.ready?'已完成':pub.stage==='lobby'?'已入席':pub.stage==='confrontation'?(p.spoke?'已发言':'等待发言'):'阅读中';
+    return `<div class="seat ${p.ready?'is-ready':''}"><span class="connection-dot ${p.online?'on':''}">${p.online?'● 在线':'○ 暂时离线'}</span><strong>${esc(p.role?.name||p.nickname)}</strong>${p.role?`<small>${esc(p.role.brief)}</small>`:''}<div class="state">${esc(status)}</div>${removable?`<button class="remove ghost danger" data-do="remove" data-id="${esc(p.id)}">移除席位</button>`:''}</div>`;
+  }).join('')}</div>`;
+}
+function anchors(pub) { return `<div class="anchors">${pub.anchors.map(a=>`<div class="anchor"><b>${esc(a.time)}</b><small>${esc(a.text)}</small></div>`).join('')}</div>`; }
+function dossier(role) {
+  return `<p class="eyebrow">本人卷宗 · 请勿向他人展示整页</p><div class="row between"><h2 class="role-name">${esc(role.name)}</h2><span class="private-badge ${role.isCulprit?'culprit':''}">${role.isCulprit?'你是本案凶手':'你没有杀人'}</span></div><p class="muted">${esc(role.brief)}</p><div class="notice" style="margin-top:20px"><small>可以告诉大家的公开介绍</small><p>${esc(role.intro)}</p></div><div style="margin-top:25px">${role.dossier.map(part=>`<div class="dossier-part"><h3>${esc(part.label)}</h3><p>${esc(part.text)}</p></div>`).join('')}</div>`;
+}
+function evidenceCard(e,{mine=false,canAct=false}={}) {
+  const published=state.public.evidence.some(item=>item.id===e.id);
+  return `<details class="evidence" data-detail="ev-${esc(e.id)}-${mine?'mine':'pub'}" ${mine||state.public.flowVersion===2&&e.round===(state.public.stage==='search1'?1:state.public.stage==='search2'?2:0)?'open':''}><summary><div><span class="ev-id">${esc(e.id)} · ${esc(locationName(e.locationId))} · 第${e.round}轮</span><strong>${esc(e.title)}</strong></div></summary><div class="ev-body">${esc(e.text)}${mine&&e.hint?`<div class="private-hint">仅你可见：${esc(e.hint)}</div>`:''}${state.public.flowVersion===2?'':`<p class="question">可以问：${esc(e.question)}</p>`}${state.public.flowVersion===2&&e.canVerify?e.verification?`<p class="notice" style="margin-top:16px">核对结果：${esc(e.verification)}</p>`:['search1','search2'].includes(state.public.stage)?`<button class="ghost" style="margin-top:16px" data-do="screen_verify" data-id="${esc(e.id)}">核对这件原物</button>`:'':''}${canAct?`<div class="row">${mine&&!published?`<button data-do="publish" data-id="${esc(e.id)}">公开物证</button>`:''}<button class="ghost" data-do="cite" data-id="${esc(e.id)}">引用这条线索提问</button>${published?'<small>已归档</small>':''}</div>`:''}</div></details>`;
+}
+function board(pub, canAct=false) { return `<div class="section-title"><h2>公共证据板</h2><span class="count">${pub.evidence.length}份已公开</span></div>${pub.evidence.length?`<div class="evidence-grid">${pub.evidence.map(e=>evidenceCard(e,{canAct})).join('')}</div>`:'<div class="empty-copy">还没有公开物证。找到线索后，可以先询问相关的人，再公开讨论。</div>'}${pub.citations.length?`<div class="section-title"><h3>桌上的问题</h3></div><div class="records">${pub.citations.slice(-8).reverse().map(c=>`<div class="record"><b>${esc(personName(c.playerId))}</b> 用 ${esc(c.evidenceId)} 询问 <b>${esc(personName(c.targetId))}</b><p>${esc(c.text)}</p></div>`).join('')}</div>`:''}${pub.statements.length?`<div class="section-title"><h3>人物说法 <small>尚待核实</small></h3></div><div class="records">${pub.statements.slice(-8).reverse().map(s=>`<div class="record"><b>${esc(personName(s.playerId))}</b><p>${esc(s.text)}</p></div>`).join('')}</div>`:''}`; }
+function help(pub,me) { if(!['search1','search2','confrontation'].includes(pub.stage))return ''; return `<details class="plain" data-detail="help"><summary>不知道该怎么继续？</summary><div class="tight" style="margin-top:14px"><p class="small">先问：这份证据证明到哪一步？还缺哪一段原始记录？需要时，全桌同意可展开提示。</p>${pub.hints.map((h,i)=>`<div class="notice">提示${i+1}：${esc(h)}</div>`).join('')}${pub.hintPending?`<div class="notice">正在申请下一条提示 · ${pub.hintApprovedCount}/${pub.story.players}人同意${me?`<button class="fill" style="margin-top:10px" data-do="hint_approve" ${me.hintApproved?'disabled':''}>${me.hintApproved?'你已同意':'同意展开提示'}</button>`:''}</div>`:pub.hints.length<pub.hintLimit?'<button data-do="hint_request">请大家确认，展开下一条提示</button>':''}</div></details>`; }
+function joinCard(pub) {
+  const choices=info.urls.length?info.urls:[info.localUrl];
+  if(!choices.includes(lanBase))lanBase=choices[0];
+  const url=`${lanBase}/?room=${pub.code}`;
+  return `<div class="card join-card"><div class="row between"><div><p class="room-label">邀请朋友</p><h3>扫码入席</h3></div><span class="roomcode">${esc(pub.code)}</span></div><img class="qr" src="/api/rooms/${pub.code}/qr?base=${encodeURIComponent(lanBase)}" alt="扫码进入房间 ${esc(pub.code)}"><p class="small">手机与电脑连接同一个 Wi-Fi，再扫码。</p><a class="join-url" href="${esc(url)}" target="_blank" rel="noopener">${esc(url)}</a>${!info.urls.length?'<p class="small danger">未找到局域网地址，请连接Wi-Fi后刷新。</p>':''}<div class="join-actions"><button class="ghost fill" data-do="copy">复制邀请链接</button><a class="button fill" href="/?room=${pub.code}" target="_blank" rel="noopener">我也用一个席位参加</a></div><details class="plain" data-detail="network-address"><summary>手机连不上？检查网络地址</summary><label class="small" for="lan-base">选择手机能访问的局域网地址</label><select id="lan-base" aria-label="选择局域网地址">${choices.map(base=>`<option value="${esc(base)}" ${base===lanBase?'selected':''}>${esc(base)}</option>`).join('')}</select></details></div>`;
+}
+function paperKey(pub){return `sr:paper:${pub.code}:${pub.stageId}`;}
+function paperDraft(pub){try{return JSON.parse(sessionStorage.getItem(paperKey(pub)))||{open:false,ballots:{}};}catch{return {open:false,ballots:{}};}}
+function savePaper(pub,draft){sessionStorage.setItem(paperKey(pub),JSON.stringify(draft));}
+function conversationPhone(pub,me){
+  const r=me.role,c=r.card;
+  return `<main class="phone private-action"><p class="small">${pub.stage==='ended'?'故事已揭晓，一起看公共屏。':'共同故事在公共屏；这里是你的亲历。'}</p><div class="card role-card" style="margin-top:16px"><div class="row between"><h1 class="role-name">${esc(r.name)}</h1><span class="private-badge ${r.isCulprit?'culprit':''}">${r.isCulprit?'你是凶手':'你没有杀人'}</span></div><p class="muted">${esc(r.brief)}</p><section class="single-purpose"><p>你的目的</p><h2>${esc(c.goal)}</h2></section><h3>你记得的三件事</h3><ul class="action-facts">${c.facts.map(text=>`<li>${esc(text)}</li>`).join('')}</ul><details class="plain" data-detail="private-starter"><summary>不知道怎么开口？</summary><p class="prose">${esc(c.starter)}</p></details><details class="plain" data-detail="action-history"><summary>查看完整亲历</summary>${c.history.map(p=>`<p class="prose">${esc(p.text)}</p>`).join('')}</details><details class="plain" data-detail="action-boundaries"><summary>说谎的边界</summary>${c.boundaries.map(t=>`<p>${esc(t)}</p>`).join('')}</details></div></main>`;
+}
+function conversationVote(pub){
+  const draft=paperDraft(pub);
+  return `<section class="card stack"><h2>你认为凶手是谁？</h2><p>各自写下一个凶手昵称，折好交齐，同时揭开。投票前可以各自说说理由。</p><button data-do="print-ballots">打印${countWord(pub.story.players)}张选票</button><p class="small">也可以手写“我的昵称、凶手昵称”。</p>${!draft.open?'<button class="primary fill" data-do="paper-open">选票已全部揭开，开始录入</button>':''}</section>${draft.open?`<form id="paper-form" class="card stack"><h2>逐张核对纸票</h2>${pub.players.map(p=>`<div><label for="suspect-${p.id}">${esc(p.nickname)}指认谁</label><select id="suspect-${p.id}" name="suspect-${p.id}" required><option value="">请选择</option>${pub.players.map(t=>`<option value="${esc(t.role.id)}" ${draft.ballots[p.id]?.suspectId===t.role.id?'selected':''}>${esc(t.nickname)} · ${esc(t.role.brief)}</option>`).join('')}</select></div>`).join('')}<label class="paper-confirm"><input id="paper-revealed" name="revealed" type="checkbox" ${draft.revealed?'checked':''} required><span>${countWord(pub.story.players)}张选票已经收齐并同时揭开，录入内容与纸票一致。</span></label><button class="primary fill" type="submit">${countWord(pub.story.players)}张纸票核对无误，揭晓结果</button></form>`:''}`;
+}
+function conversationHost(pub){
+  const relations=`<div class="public-relations" style="--participants:${pub.story.players}">${pub.players.map(p=>`<section><h3>${esc(p.nickname)}</h3><p>${esc(pub.briefing.relations.find(r=>r.roleId===p.role.id).text)}</p></section>`).join('')}</div>`;
+  let main='';
+  if(pub.stage==='opening')main=`<article class="card screen-briefing"><h2>${esc(pub.story.title)}</h2><p class="prose">${esc(pub.briefing.background)}</p><p class="prose">${esc(pub.opening)}</p><h3 style="margin-top:24px">今晚在场的人</h3>${relations}<details class="plain" data-detail="screen-rules"><summary>开局规则</summary><ul class="rules">${pub.rules.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details><button class="primary fill" style="margin-top:20px" data-do="screen_next">领取私人身份</button></article>`;
+  else if(pub.stage==='dossier')main=`<section class="card stack"><h2>先听听每个人怎么说</h2><p>看自己的三条亲历，介绍身份，再说一件你记得的事。别人说到与你有关的地方，就接着问。</p>${relations}<button class="primary fill" data-do="screen_next">听完介绍，看看现场发现</button></section>`;
+  else if(['search1','search2'].includes(pub.stage))main=`<section class="card stack"><h2>${esc(pub.discussion.title)}</h2><p class="prose">${esc(pub.discussion.text)}</p></section>${board(pub)}<div class="action-box"><button class="primary fill" data-do="screen_next">${pub.stage==='search1'?'聊过这一轮，看看新发现':'讨论好了，开始指认'}</button><p class="small">还有疑问就继续聊，由大家决定什么时候往下走。</p></div><details class="plain" data-detail="conversation-help"><summary>卡住了，再看看提示</summary>${pub.hints.map(t=>`<p class="notice">${esc(t)}</p>`).join('')}${pub.hints.length<pub.hintLimit?'<button style="margin-top:16px" data-do="screen_hint">全桌需要一条提示</button>':''}</details>`;
+  else if(pub.stage==='vote')main=conversationVote(pub);
+  else if(pub.stage==='ended')main=ending(pub);
+  else main='<section class="card stack"><h2>本局已中止</h2><button class="primary" data-do="reset">回到大厅，再开一局</button></section>';
+  return `${phase(pub)}<div class="game-head host-heading"><div><h1>${esc(pub.title)}</h1><p class="stage-note">${esc(pub.instruction)}</p></div></div><div class="host-grid"><main class="host-main">${main}</main><aside class="sidebar"><div class="card players-card"><h3>今晚在场的人</h3>${players(pub)}</div>${!['ended','aborted'].includes(pub.stage)?'<button class="ghost danger fill" data-do="abort">中止本局</button>':''}</aside></div>`;
+}
+
+function screenPhone(pub,me){
+  const note=pub.stage==='lobby'?'席位已保留。等朋友到齐后，一起看公共屏。':pub.stage==='opening'?'先一起看公共屏，弄清发生了什么。故事讲完后，私人身份会自动送到这里。':pub.stage==='ended'?'调查已结束。完整经过与结果请一起看公共屏。':pub.stage==='aborted'?'本局已中止，等待公共屏重开。':'故事、线索与阶段推进都在公共屏。这里只保管你的私人角色卡。';
+  if(!me.role)return `<div class="phone card stack"><h1>${esc(me.nickname)}，${pub.stage==='opening'?'先听故事':'你的席位已保留'}</h1><p>${note}</p><p class="small">私人身份尚未发放。刷新后仍会回到自己的席位。</p></div>`;
+  if(pub.flowVersion===2)return conversationPhone(pub,me);
+  const r=me.role,c=r.card;
+  return `<main class="phone private-action"><p class="notice">${note}</p><div class="card role-card" style="margin-top:20px"><div class="row between"><h1 class="role-name">${esc(r.name)}</h1><span class="private-badge ${r.isCulprit?'culprit':''}">${r.isCulprit?'你是凶手':'你没有杀人'}</span></div><p class="muted">${esc(r.brief)} · 仅本人可见</p><section class="single-purpose"><p>你的唯一目的</p><h2>${esc(c.goal)}</h2></section><h3>记住这三件事</h3><ul class="action-facts">${c.facts.map(text=>`<li>${esc(text)}</li>`).join('')}</ul><div class="current-direction"><h3>当前方向</h3><p>${esc(c.focus)}</p></div><details class="plain" data-detail="action-boundaries"><summary>${r.isCulprit?'应对方向与说谎边界':'我能说什么？'}</summary><ul class="rules">${c.boundaries.map(text=>`<li>${esc(text)}</li>`).join('')}</ul></details><details class="plain" data-detail="action-history"><summary>查看自己的完整经历</summary>${c.history.map(part=>`<div class="dossier-part" style="margin-top:16px"><h3>${esc(part.label)}</h3><p>${esc(part.text)}</p></div>`).join('')}</details>${me.responseHints.length?`<details class="plain" data-detail="response-directions"><summary>已出现的证据，我可以从哪里想？</summary>${me.responseHints.map(h=>`<div class="dossier-part" style="margin-top:18px"><h3>${esc(h.id)} · ${esc(h.title)}</h3><p>${esc(h.direction)}</p></div>`).join('')}</details>`:''}</div></main>`;
+}
+function screenVote(pub){
+  const draft=paperDraft(pub);
+  return `<section class="card stack"><h2>先各自写票，再一起揭开</h2><p>写下你认为的凶手，以及下列关键判断的编号。折好选票，${countWord(pub.story.players)}人全部交齐后同时揭开；操作者随后录入。</p><ol class="paper-reasons">${pub.reasonOptions.map(o=>`<li><b>${esc(o.id)}</b><span>${esc(o.text)}</span></li>`).join('')}</ol><button data-do="print-ballots">打印${countWord(pub.story.players)}张选票</button><p class="small">没有打印机，也可以用${countWord(pub.story.players)}张纸按“我的昵称、凶手昵称、判断编号”手写。</p>${!draft.open?'<button class="primary fill" data-do="paper-open">选票已全部揭开，开始录入</button>':''}</section>${draft.open?`<form id="paper-form" class="card paper-form stack"><h2>逐张核对纸票</h2><p class="muted">现在录入的是已经揭开的选票。${countWord(pub.story.players)}张都选好，再一次提交。</p>${pub.players.map(p=>{const b=draft.ballots[p.id]||{};return `<fieldset><legend>${esc(p.nickname)}的选票</legend><div class="paper-fields"><div><label for="suspect-${p.id}">指认谁</label><select id="suspect-${p.id}" name="suspect-${p.id}" required><option value="">请选择</option>${pub.players.map(target=>`<option value="${esc(target.role.id)}" ${b.suspectId===target.role.id?'selected':''}>${esc(target.nickname)} · ${esc(target.role.brief)}</option>`).join('')}</select></div><div><label for="reason-${p.id}">判断编号</label><select id="reason-${p.id}" name="reason-${p.id}" required><option value="">请选择</option>${pub.reasonOptions.map(o=>`<option value="${esc(o.id)}" ${b.reasonId===o.id?'selected':''}>判断 ${esc(o.id)}</option>`).join('')}</select></div></div></fieldset>`;}).join('')}<label class="paper-confirm"><input id="paper-revealed" name="revealed" type="checkbox" ${draft.revealed?'checked':''} required><span>${countWord(pub.story.players)}张选票已经收齐并同时揭开，录入内容与纸票一致。</span></label><button class="primary fill" type="submit">${countWord(pub.story.players)}张纸票核对无误，揭晓结果</button></form>`:''}`;
+}
+function screenHostContent(pub){
+  if(pub.flowVersion===2)return conversationHost(pub);
+  const investigated=pub.players.filter(p=>p.searched).length;
+  const heading=`${phase(pub)}<div class="game-head host-heading"><div><h1>${esc(pub.title)}</h1><p class="stage-note">${esc(pub.instruction)}</p></div>${['search1','search2'].includes(pub.stage)?`<div class="stage-meter"><strong>${investigated} / ${pub.story.players}</strong>已登记调查</div>`:''}</div>`;
+  let main='';
+  if(pub.stage==='opening')main=`<article class="card screen-briefing"><p class="eyebrow">${esc(pub.story.title)}</p><h2>为什么来到这里</h2><p class="prose">${esc(pub.briefing.background)}</p><h2>今晚发生了什么</h2><p class="prose">${esc(pub.opening)}</p>${anchors(pub)}<h2>今晚在场的${countWord(pub.story.players)}个人</h2><div class="public-relations" style="--participants:${pub.story.players}">${pub.players.map(p=>`<section><h3>${esc(p.nickname)}</h3><p>${esc(pub.briefing.relations.find(r=>r.roleId===p.role.id).text)}</p></section>`).join('')}</div><details class="plain" data-detail="screen-rules"><summary>一起确认调查规则</summary><ol class="rules">${pub.rules.map(r=>`<li>${esc(r)}</li>`).join('')}</ol></details><div class="action-box"><button class="primary fill" data-do="screen_next">故事明白了，发放私人身份</button></div></article>`;
+  else if(pub.stage==='dossier')main=`<section class="card stack"><h2>现在，私下读自己的手机</h2><p>每人只有一个目的。记住自己做过什么，再想一想接下来要问什么。旧事可以谈，不是额外保密任务。</p><p class="notice">不要向别人展示整张角色卡。大家都读明白后，口头告诉操作者。</p><button class="primary fill" data-do="screen_next">${countWord(pub.story.players)}人读完，开始调查</button></section>`;
+  else if(['search1','search2'].includes(pub.stage)){
+    const waiting=pub.players.filter(p=>!p.searched);
+    main=`<section class="card stack"><h2>谁想调查哪里？</h2>${waiting.length?`<div><label for="screen-investigator">先选口头提出调查的人</label><select id="screen-investigator">${waiting.map(p=>`<option value="${esc(p.id)}" ${investigatorSelections.get(pub.stageId)===p.id?'selected':''}>${esc(p.nickname)} · ${esc(p.role.brief)}</option>`).join('')}</select></div><div class="locations">${pub.locations.map(l=>`<button class="location" data-do="screen_search" data-id="${esc(l.id)}"><strong>${esc(l.name)}</strong><small>${esc(l.note)}</small></button>`).join('')}</div>`:`<p class="notice">${countWord(pub.story.players)}人的调查已登记。请一起核对下面的物证，讨论完再继续。</p>`}<button class="primary fill" data-do="screen_next" ${waiting.length?'disabled':''}>${pub.stage==='search1'?'本轮讨论结束，进入第二轮':'本轮讨论结束，进入最后对质'}</button></section>${board(pub)}`;
+  } else if(pub.stage==='confrontation')main=`<section class="card stack"><h2>先让每个人说完一次</h2><p>按座次提问或陈述，也可以明确放弃。操作者只登记是否完成，不评价谁的说法正确。</p><div class="row">${pub.players.map(p=>`<button data-do="screen_speak" data-id="${esc(p.id)}" data-value="${!p.spoke}">${esc(p.nickname)}${p.spoke?'已完成发言（可撤回）':'已发言／放弃'}</button>`).join('')}</div><button class="primary fill" data-do="screen_next" ${pub.players.every(p=>p.spoke)?'':'disabled'}>大家讨论完了，开始纸票指认</button></section><div class="section-title"><h2>还可以补查</h2><span class="count">${pub.missing.length}份</span></div>${pub.missing.length?`<div class="locations">${pub.missing.map(e=>`<button class="location" data-do="screen_supplement" data-id="${esc(e.id)}"><span class="number">${esc(e.id)}</span><strong>${esc(e.title)}</strong></button>`).join('')}</div>`:'<p class="notice">全部物证已公开。</p>'}${board(pub)}`;
+  else if(pub.stage==='vote')main=screenVote(pub);
+  else if(pub.stage==='ended')main=ending(pub);
+  else main='<section class="card stack"><h2>本局已中止</h2><p>本次不判胜负。可以回到大厅，重新开始。</p><button class="primary" data-do="reset">回到大厅，再开一局</button></section>';
+  const hints=['search1','search2','confrontation'].includes(pub.stage)?`<section class="card stack"><h3>全桌提示</h3>${pub.hints.map(text=>`<p class="notice">${esc(text)}</p>`).join('')}${pub.hints.length<pub.hintLimit?'<button data-do="screen_hint">大家同意，展开下一条提示</button>':'<p class="small">提示已全部展开。</p>'}</section>`:'';
+  return `${heading}<div class="host-grid"><main class="host-main">${main}${hints}</main><aside class="sidebar"><div class="card players-card"><h3>今晚的${countWord(pub.story.players)}位来客</h3>${players(pub)}</div>${!['ended','aborted'].includes(pub.stage)?'<button class="ghost danger fill" data-do="abort">中止本局</button>':''}</aside></div>`;
+}
+function printBallots(pub){
+  if(pub.stage!=='vote')return;
+  $('#print-ballots')?.remove();const section=document.createElement('section');section.id='print-ballots';
+  section.innerHTML=pub.players.map(p=>`<article><h2>${esc(pub.story.title)} · 秘密指认</h2><p>我的昵称：${esc(p.nickname)}</p><p>我认为凶手是：________________</p>${pub.flowVersion===2?'':`<p>我的关键判断：${pub.reasonOptions.map(o=>`□ ${esc(o.id)}`).join('　')}</p>`}<small>${pub.flowVersion===2?'':'判断选项请看公共屏。'}独立填写后折好，${countWord(pub.story.players)}人交齐再一起揭开。</small></article>`).join('');
+  document.body.append(section);window.addEventListener('afterprint',()=>section.remove(),{once:true});window.print();
+}
+function hostContent(pub) {
+  if(pub.playMode==='screen-led'&&pub.stage!=='lobby')return screenHostContent(pub);
+  const count=pub.stage==='lobby'?pub.players.length:pub.stage==='vote'?pub.players.filter(p=>p.voted).length:pub.stage==='ended'?pub.players.length:pub.players.filter(p=>p.ready).length;
+  const label=pub.stage==='lobby'?'已入席':pub.stage==='vote'||pub.stage==='ended'?'已提交':'已确认';
+  const heading=`${phase(pub)}<div class="game-head host-heading"><div><h1>${esc(pub.title)}</h1><p class="stage-note">${esc(pub.instruction)}</p></div><div class="stage-meter"><strong>${count} / ${pub.story.players}</strong>${label}</div></div>`;
+  if(pub.stage==='lobby')return `${heading}<div class="host-lobby"><main class="lobby-letter"><p class="eyebrow">今晚的故事</p><h2 style="font-size:36px">${esc(pub.story.title)}</h2><p class="muted">${esc(pub.story.description)}</p><div class="section-title"><h3>入席名单</h3><span class="count">等${pub.story.players}位朋友到齐</span></div>${players(pub,!pub.demo)}<div class="notice" style="margin-top:24px">公共屏不占席位。电脑操作者也可以用手机扫码参加。</div><div class="action-box"><button class="primary fill" data-do="start" ${pub.players.length!==pub.story.players?'disabled':''}>${pub.players.length===pub.story.players?(pub.playMode==='screen-led'?'所有人到齐，一起听故事':'所有人到齐，开始分发角色'):`等待入席 · ${pub.players.length}/${pub.story.players}`}</button></div></main>${!pub.demo?joinCard(pub):''}</div>`;
+  let main='';
+  if(pub.stage==='ended')main=ending(pub);
+  else if(pub.stage==='aborted')main='<div class="card stack"><h2>本局已中止</h2><p class="muted">没有形成正常结局，不判定任何人获胜。</p><button data-do="reset" class="primary">回到大厅</button></div>';
+  else main=`<div class="card host-message">${pub.stage==='opening'?`<p class="eyebrow">${esc(pub.story.title)}</p><div class="intro-letter prose">${esc(pub.opening)}</div>`:pub.stage==='dossier'?'<h2>请先阅读各自的档案。</h2><p class="muted" style="margin-top:13px">每个人的手机收到不同的经历。读完作一句公开介绍，再确认完成。<br>你们可以隐瞒、追问、说谎，保管好自己的私人卷宗。</p>':pub.stage==='vote'?'<h2>把判断留在自己的手机上。</h2><p class="muted" style="margin-top:13px">全部选票收齐后统一揭晓。现在只显示谁已提交，不公开任何人的选择。</p>':`<h2>${pub.stage==='confrontation'?'每个人，都有一次完整提问的机会。':'拿着线索，问清每个人的说法。'}</h2>`}${anchors(pub)}</div>${board(pub)}${help(pub,null)}<details class="plain" data-detail="public-rules"><summary>重看开场与调查边界</summary><p class="prose" style="margin-top:16px">${esc(pub.opening)}</p><ol class="rules">${pub.rules.map(rule=>`<li>${esc(rule)}</li>`).join('')}</ol></details>`;
+  return `${heading}<div class="host-grid"><main class="host-main">${main}</main><aside class="sidebar"><div class="card players-card"><div class="row between"><h3>围桌的人</h3><span class="count">${pub.players.length}/${pub.story.players}</span></div>${players(pub)}</div>${!pub.demo?`<details class="plain invitation" data-detail="join-qr"><summary>重新显示加入二维码</summary>${joinCard(pub)}</details>`:''}${!['ended','aborted'].includes(pub.stage)?'<button class="ghost danger fill" data-do="abort">中止本局</button>':''}</aside></div>`;
+}
+function readyButton(pub,me,label) { return `<div class="action-box">${me.ready?'<p class="ready-note">你已确认，等大家一起继续。</p>':''}<button class="${me.ready?'ghost':'primary'}" data-do="ready" data-value="${!me.ready}">${me.ready?'撤回完成状态':esc(label)}</button><small>${pub.players.filter(p=>p.ready).length}/${pub.story.players}人完成 · 全员确认后自动继续</small></div>`; }
+function tabs() {
+  const items=[['current','当前进展'],['dossier','我的档案'],['board','公共证据']];
+  return `<nav class="tabs" aria-label="个人卷宗">${items.map(([id,label])=>`<button data-do="tab" data-tab="${id}" class="${tab===id?'active':''}" ${tab===id?'aria-current="page"':''}>${icon(id)}<span>${label}</span></button>`).join('')}</nav>`;
+}
+function voteForm(pub,me) { const draft=drafts.get(token)||me.ballot||{};return `<form id="vote-form" class="vote-form card"><p class="eyebrow">秘密指认 · 收齐后统一揭晓</p>${me.ballot?'<div class="notice" style="margin-bottom:20px">你已提交。全员收齐以前，仍可修改自己的选择。</div>':''}<fieldset><legend>一、你认为凶手是谁？</legend><label for="suspect">选择故事人物</label><select id="suspect" name="suspectId" required><option value="">请选择</option>${pub.players.map(p=>`<option value="${esc(p.role.id)}" ${draft.suspectId===p.role.id?'selected':''}>${esc(p.role.name)} · ${esc(p.role.brief)}</option>`).join('')}</select></fieldset><fieldset><legend>二、你的关键判断是什么？</legend>${pub.reasonOptions.map(o=>`<label class="radio-option"><input type="radio" name="reasonId" value="${esc(o.id)}" ${draft.reasonId===o.id?'checked':''} required><span>${esc(o.text)}</span></label>`).join('')}</fieldset><fieldset><legend>三、你愿意提交旧案证词吗？</legend><label class="radio-option"><input type="radio" name="testify" value="true" ${draft.testify===true?'checked':''} required><span>提交我的署名证词</span></label><label class="radio-option"><input type="radio" name="testify" value="false" ${draft.testify===false?'checked':''} required><span>不提交，保留沉默</span></label><p class="preview">若提交：${esc(me.role.testimony)}<br><br>这是故事中是否交出署名材料的选择。无论如何，结束后都会完整揭晓故事；它不加减推理成绩。</p></fieldset><button class="primary fill" type="submit">${me.ballot?'修改我的指认':'秘密提交我的指认'}</button><p class="small" style="margin-top:12px">${pub.players.filter(p=>p.voted).length}/${pub.story.players}人已提交 · 不公开其他人的选择</p></form>`; }
+function investigation(pub,me) {
+  const round=pub.stage==='search1'?1:2, searched=me.searches[round];
+  const instruction=searched?'你已取得本轮物证。先核对说法，再决定什么时候公开。':`${round===2?'上一轮物证已放入公共证据板。':'先和大家商量分工。'}选一处调查，每人本轮一次，最后对质可补查。`;
+  return `<div class="notice">${instruction}</div>${!searched?`<div class="locations" style="margin-top:20px">${pub.locations.map(location=>{
+    const count=pub.players.filter(p=>p.locationId===location.id).length;
+    return `<button class="location" data-do="search" data-id="${esc(location.id)}">${icon(location.id,'place-icon')}<span class="number">${count?`已有${count}人检查`:'尚未检查'}</span><strong>${esc(location.name)}</strong><small>${esc(location.note)}</small></button>`;
+  }).join('')}</div>`:`<div class="stack" style="margin-top:20px">${me.evidence.filter(e=>e.round===round).map(e=>evidenceCard(e,{mine:true,canAct:true})).join('')}</div>${readyButton(pub,me,'本轮讨论完成，准备继续')}`}<details class="plain" data-detail="talk-hint"><summary>我可以问什么？</summary><p class="notice" style="margin-top:12px">${esc(me.role.dossier.find(part=>part.label==='第一句值得问的话')?.text||'这份证据能证明什么？谁能确认自己的行踪？')}</p><p class="small" style="margin-top:12px">问题可以当面说，也可以用物证上的“引用这条线索提问”。</p></details>${help(pub,me)}`;
+}
+function confrontation(pub,me) { return `<div class="card stack"><h3>先让每个人说完一次。</h3><p class="muted">按座位依次提出一个问题或陈述。也可以明确放弃，不要求演技。</p><p class="notice">${esc(me.role.dossier.find(p=>p.label==='第一句值得问的话')?.text || '你们的结论解释了全部证据吗？')}</p><button data-do="speak" ${me.spoke?'disabled':''}>${me.spoke?'你已完成发言':'我已完成提问或陈述／放弃发言'}</button>${me.spoke?readyButton(pub,me,'我准备好秘密指认了'):''}</div><div class="section-title"><h3>遗漏的材料</h3><span class="count">${pub.missing.length}份可补查</span></div>${pub.missing.length?`<div class="locations">${pub.missing.map(e=>`<button class="location" data-do="supplement" data-id="${esc(e.id)}"><span class="number">${esc(e.id)} / ${esc(locationName(e.locationId))}</span><strong>${esc(e.title)}</strong><small>补查后直接放入公共证据板</small></button>`).join('')}</div>`:'<p class="notice">全部物证已归档。对照证据，给出你自己的结论。</p>'}${help(pub,me)}`; }
+function playerContent(pub,me) {
+  if(pub.playMode==='screen-led')return screenPhone(pub,me);
+  if(pub.stage==='lobby')return `<div class="phone card stack"><p class="eyebrow">你的席位已保留</p><h2>${esc(me.nickname)}，你已入席。</h2><p class="muted">${esc(pub.story.title)} · 等所有朋友到齐，由公共屏开始分发角色。现在可以把手机放下。</p>${players(pub)}<small>刷新会回到原席位。请用同一个浏览器继续。</small></div>`;
+  if(pub.stage==='aborted')return '<div class="phone card stack"><h2>本局已中止</h2><p class="muted">等待公共屏返回大厅。本次不判胜负。</p></div>';
+  if(pub.stage==='ended')return `<div class="phone">${ending(pub)}</div>`;
+  let main='';
+  if(tab==='dossier')main=`<div class="card role-card">${dossier(me.role)}</div>${me.evidence.length?`<div class="section-title"><h3>我取得的物证</h3></div><div class="stack">${me.evidence.map(e=>evidenceCard(e,{mine:true,canAct:['search1','search2','confrontation'].includes(pub.stage)})).join('')}</div>`:''}`;
+  else if(tab==='board')main=`${anchors(pub)}${board(pub,['search1','search2','confrontation'].includes(pub.stage))}${['search1','search2','confrontation'].includes(pub.stage)?`<details class="plain" data-detail="my-statement"><summary>留下一句我的说法（可选）</summary><form id="statement-form" style="margin-top:12px"><label for="statement-text">系统只记录，不判断真假</label><textarea id="statement-text" name="text" maxlength="160" rows="3" placeholder="例如：我在停电时一直待在餐厅。" required></textarea><button style="margin-top:10px" class="fill">记录到公共屏</button></form></details>`:''}`;
+  else if(pub.stage==='dossier')main=`<div class="card role-card">${dossier(me.role)}<div class="notice" style="margin-top:20px">请作一句公开介绍。可以隐瞒或说谎，但不能编造材料外的证人、通道和能力。结束后会完整揭晓所有秘密。</div>${readyButton(pub,me,'档案读完了')}</div>`;
+  else if(pub.stage==='opening')main=`<div class="card"><p class="eyebrow">一起阅读今晚的案情</p><div class="prose">${esc(pub.opening)}</div>${anchors(pub)}<details class="plain" data-detail="rules"><summary>阅读调查边界</summary><ol class="rules">${pub.rules.map(r=>`<li>${esc(r)}</li>`).join('')}</ol></details>${readyButton(pub,me,'开场与规则已读，开始调查')}</div>`;
+  else if(['search1','search2'].includes(pub.stage))main=investigation(pub,me);
+  else if(pub.stage==='confrontation')main=confrontation(pub,me);
+  else if(pub.stage==='vote')main=voteForm(pub,me);
+  return `<div class="phone">${demo?tabs():''}<div class="game-head"><p class="eyebrow">${esc(me.role.name)}的卷宗 · 仅本人可见</p><h1>${esc(tab==='dossier'?'我的秘密档案':tab==='board'?'共同的证据':pub.title)}</h1><p class="stage-note">${esc(pub.instruction)}</p></div>${main}${!demo?tabs():''}</div>`;
+}
+function ending(pub) { const r=pub.result;return `<div class="card stack"><p class="eyebrow">本桌调查结果</p><h2 class="results-title">${esc(r.title)}</h2><p class="muted">${r.completeVotes}/${pub.story.players}人${pub.flowVersion===2?'指认了真正的凶手':'同时认对凶手与关键判断'}。${pub.playMode==='screen-led'?'以下展示真实经过与本桌判断。':'以下分别展示真实经过、本桌判断及故事中提交的证词。'}</p><div class="notice">真正的凶手：${esc(roleName(r.answer.culpritId))}。${pub.flowVersion===2?'一起回看你们讨论过的线索。':'先核对作案窗口，再逐一排除其他人。'}</div><div class="row"><button data-do="export">保存这局复盘</button>${hostMode||demo?'<button class="primary" data-do="reset">回到大厅，再开一局</button>':''}</div><p class="small">同一案件的真相固定。知道答案以后，建议换一个新故事。</p></div><div class="section-title"><h2>你们的判断</h2></div><div class="card">${r.players.map(p=>`<div class="end-person"><div class="row between"><h3>${esc(p.name)} <small>${esc(p.brief)}</small></h3><span class="tag">${p.isCulprit?'本案凶手':'非凶手'}</span></div><p>指认：${esc(roleName(p.ballot.suspectId))}${pub.flowVersion===2?'':` · 判断${esc(p.ballot.reasonId)}`}</p><p>${esc(p.message)}</p>${pub.playMode==='screen-led'?'':`<p style="margin-top:9px">故事内署名证词：${p.testimony?esc(p.testimony):'未提交，选择保持沉默。'}</p>`}<details class="plain" data-detail="reveal-${esc(p.playerId)}"><summary>揭晓这个人的全部经历</summary><div style="margin-top:16px">${p.dossier.map(d=>`<div class="dossier-part"><h3>${esc(d.label)}</h3><p>${esc(d.text)}</p></div>`).join('')}</div></details></div>`).join('')}</div><div class="section-title"><h2>每一步，为什么</h2></div><div class="stack">${pub.replay.map((s,i)=>`<article class="card"><p class="eyebrow">0${i+1} / ${s.evidence.map(esc).join(' · ')}</p><h3>${esc(s.title)}</h3><p class="prose" style="margin-top:14px">${esc(s.text)}</p></article>`).join('')}</div><details class="plain" data-detail="ending-timeline"><summary>查看完整时间线与证据出处</summary><div class="timeline">${pub.timeline.map(t=>`<div class="timeline-item"><b>${esc(t.time)}</b><p>${esc(t.text)}</p><small>${esc(t.source)}</small></div>`).join('')}</div></details>`; }
+function render() {
+  if(!state)return;
+  app.classList.toggle('public-view',hostMode&&!demo);
+  const detailState=new Map([...app.querySelectorAll('details[data-detail]')].map(d=>[d.dataset.detail,d.open]));
+  const focused=document.activeElement; const focusId=focused?.id; const focusValue=focused?.value; const selection=focused?.selectionStart;
+  const pub=state.public;
+  const viewKey=`${pub.stageId}:${token}:${tab}`;
+  const paneScroll=renderedViewKey===viewKey?(app.querySelector('.phone-pane')?.scrollTop||0):0;
+  renderedViewKey=viewKey;
+  if(demo){app.innerHTML=`${header()}<div class="demo-bar"><div class="row between"><div><strong>单人流程试玩</strong><p class="small">左边公共屏，右边切换手机。这里会暴露全部秘密。</p></div><div class="row"><label class="hidden" for="demo-player">查看哪位玩家</label><select id="demo-player">${demoPlayers.map((p,i)=>`<option value="${i}" ${i===demoIndex?'selected':''}>${esc(pub.players.find(x=>x.id===p.id)?.role?.name || p.nickname)}</option>`).join('')}</select>${pub.playMode==='screen-led'?'<span class="small">从左侧公共屏推进，右侧只查看私人卡。</span>':`<button data-do="demo-others">${pub.stage==='lobby'?'开始分发角色':`其余${pub.story.players-1}人完成本阶段`}</button>`}</div></div></div><div class="demo-grid"><section class="host-pane"><div class="pane-label"><span>公共主持屏</span><span>大家共同看到的内容</span></div>${hostContent(pub)}</section><section class="phone-pane"><div class="pane-label"><span>模拟手机</span><span>切换上方姓名查看</span></div>${state.me?playerContent(pub,state.me):''}</section></div>`;}
+  else app.innerHTML=`${header()}${hostMode?hostContent(pub):playerContent(pub,state.me)}`;
+  const phonePane=app.querySelector('.phone-pane');if(phonePane)phonePane.scrollTop=paneScroll;
+  for(const d of app.querySelectorAll('details[data-detail]'))if(detailState.has(d.dataset.detail))d.open=detailState.get(d.dataset.detail);
+  if(focusId){const el=document.getElementById(focusId);if(el&&['INPUT','TEXTAREA'].includes(el.tagName)){el.value=focusValue;el.focus({preventScroll:true});if(typeof selection==='number'&&typeof el.setSelectionRange==='function')try{el.setSelectionRange(selection,selection);}catch{}}}
+  if(busy||!connected)app.querySelectorAll('button[data-do]:not([data-do="tab"]):not([data-do="export"]),button[type="submit"]').forEach(b=>b.disabled=true);
+}
+async function dispatch(kind, data={}, credential=token) {
+  const stageId=state.public.stageId;
+  const next=await api(`/api/rooms/${code}/action`,{method:'POST',credential,body:{kind,stageId,...data}});
+  if(credential===token)setState(next);
+  return next;
+}
+async function run(fn){if(busy)return;busy=true;if(state)render();try{await fn();}catch(error){notify(error.message);if(state){try{setState(await getState());}catch{}}}finally{busy=false;if(state)render();}}
+async function create(demoMode=false,storyId=selectedStoryId||info.stories[0].id) {
+  const created=await api(demoMode?'/api/demo':'/api/rooms',{method:'POST',body:{storyId}});
+  remember(demoMode?'d':'h',created.code,created);
+  location.href=demoMode?`/?demo=${created.code}`:`/?room=${created.code}&screen=host`;
+}
+async function demoOthers() {
+  const initial=state.public.stage;
+  if(initial==='lobby'){await dispatch('start',{},hostToken);setState(await getState());return;}
+  if(['ended','aborted'].includes(initial)){notify('这一局已结束，可用公共屏返回大厅。');return;}
+  const own=await getState();
+  if(initial==='vote'&&!own.me.ballot){notify(`先在右边提交你自己的选票，再替其余${own.public.story.players-1}人完成。`);return;}
+  for(let i=0;i<demoPlayers.length;i++) {
+    const p=demoPlayers[i];if(p.token===token)continue;
+    let s=await getState(p.token);if(s.public.stage!==initial)break;
+    if(['search1','search2'].includes(initial)){
+      const round=initial==='search1'?1:2;
+      if(!s.me.searches[round])s=await dispatch('search',{locationId:s.public.locations[i%s.public.locations.length].id},p.token);
+      if(!s.me.ready)await dispatch('ready',{value:true},p.token);
+    } else if(initial==='confrontation') {if(!s.me.spoke)await dispatch('speak',{},p.token);if(!s.me.ready)await dispatch('ready',{value:true},p.token);}
+    else if(initial==='vote') {if(!s.me.ballot)await dispatch('vote',own.me.ballot,p.token);}
+    else if(!s.me.ready)await dispatch('ready',{value:true},p.token);
+  }
+  setState(await getState());
+}
+async function confirmAction(title,text){return new Promise(resolve=>{const dialog=$('#confirm');$('#confirm-title').textContent=title;$('#confirm-text').textContent=text;dialog.showModal();const finish=value=>{dialog.close();resolve(value);};$('#confirm-ok').onclick=()=>finish(true);$('#confirm-cancel').onclick=()=>finish(false);dialog.oncancel=e=>{e.preventDefault();finish(false);};});}
+async function cite(id) {
+  const choices=state.public.players.filter(p=>p.id!==state.me.id);
+  const dialog=$('#confirm');$('#confirm-title').textContent=`用${id}询问谁？`;$('#confirm-text').innerHTML=`<label for="cite-target">先选一个人，问题用嘴说。</label><select id="cite-target">${choices.map(p=>`<option value="${esc(p.id)}">${esc(p.role.name)} · ${esc(p.role.brief)}</option>`).join('')}</select>`;
+  const selected=await new Promise(resolve=>{dialog.showModal();$('#confirm-ok').onclick=()=>{const value=$('#cite-target').value;dialog.close();resolve(value);};$('#confirm-cancel').onclick=()=>{dialog.close();resolve(null);};dialog.oncancel=e=>{e.preventDefault();dialog.close();resolve(null);};});
+  if(selected)await dispatch('cite',{evidenceId:id,targetId:selected});
+}
+app.addEventListener('click',event=>{
+  const button=event.target.closest('[data-do]');if(!button||button.disabled)return; const action=button.dataset.do;
+  const investigator=action==='screen_search'?$('#screen-investigator')?.value:null;
+  if(action==='tab'){tab=button.dataset.tab;render();return;}
+  if(action==='resume'){const mode=button.dataset.mode,room=button.dataset.room;location.href=mode==='d'?`/?demo=${room}`:`/?room=${room}${mode==='h'?'&screen=host':''}`;return;}
+  if(action==='rejoin'){localStorage.removeItem(storageKey('p',code));state=null;joinPage();return;}
+  run(async()=>{
+    if(action==='demo'){const story=info.stories.find(s=>s.id===selectedStoryId)||info.stories[0];if(await confirmAction('单人试玩会剧透',`你会在一个页面中切换全部${story.players}个角色。准备和朋友正式玩这个案件的人，建议直接创建公共屏。`))await create(true);}
+    else if(action==='start') {await dispatch('start',{},hostToken||token);if(demo)setState(await getState());}
+    else if(action.startsWith('screen_')){
+      let data={};
+      if(action==='screen_search')data={playerId:investigator,locationId:button.dataset.id};
+      if(action==='screen_supplement'||action==='screen_verify')data={evidenceId:button.dataset.id};
+      if(action==='screen_speak')data={playerId:button.dataset.id,value:button.dataset.value==='true'};
+      if(action==='screen_hint'){if(!await confirmAction('全桌同意展开提示？','请先口头确认大家都希望得到下一条提示。'))return;data={agreed:true};}
+      await dispatch(action,data,hostToken||token);if(demo)setState(await getState());
+    }
+    else if(action==='paper-open'){const draft=paperDraft(state.public);draft.open=true;savePaper(state.public,draft);}
+    else if(action==='print-ballots')printBallots(state.public);
+    else if(action==='ready')await dispatch('ready',{value:button.dataset.value==='true'});
+    else if(action==='search')await dispatch('search',{locationId:button.dataset.id});
+    else if(action==='publish')await dispatch('publish',{evidenceId:button.dataset.id});
+    else if(action==='supplement')await dispatch('supplement',{evidenceId:button.dataset.id});
+    else if(action==='cite')await cite(button.dataset.id);
+    else if(action==='speak'||action==='hint_request'||action==='hint_approve')await dispatch(action);
+    else if(action==='demo-others')await demoOthers();
+    else if(action==='copy'){const url=`${lanBase}/?room=${code}`;try{await navigator.clipboard.writeText(url);notify('邀请链接已复制。');}catch{notify(`邀请地址：${url}`);}}
+    else if(action==='remove'){if(await confirmAction('移除这个席位？','被移除的人可重新扫码加入。'))await dispatch('remove',{playerId:button.dataset.id},hostToken||token);}
+    else if(action==='abort'){if(await confirmAction('中止本局？','这不会产生胜负结局。所有人会保留席位，可回到大厅重新开始。')){await dispatch('abort',{},hostToken||token);if(demo)setState(await getState());}}
+    else if(action==='reset'){if(await confirmAction('回到大厅？','保留所有席位，清空本局进度并重新分配角色。这个案件的真相不会改变，可先保存复盘。')){await dispatch('reset',{},hostToken||token);drafts.clear();if(demo)setState(await getState());}}
+    else if(action==='export'){const pub=state.public;const blob=new Blob([JSON.stringify({title:pub.story.title,result:pub.result,replay:pub.replay,timeline:pub.timeline,evidence:pub.evidence},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download=`诡境-${pub.story.title}-${code}-复盘.json`;link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);}
+  });
+});
+app.addEventListener('change',event=>{
+  if(event.target.id==='screen-investigator')investigatorSelections.set(state.public.stageId,event.target.value);
+  if(event.target.name==='storyId'&&event.target.tagName==='SELECT'){selectedStoryId=event.target.value;home();}
+  if(event.target.id==='lan-base'){lanBase=event.target.value;render();}
+  if(event.target.id==='demo-player'){run(async()=>{demoIndex=Number(event.target.value);token=demoPlayers[demoIndex].token;setState(await getState());connect();});}
+  if(event.target.closest('#vote-form')){const form=new FormData($('#vote-form'));drafts.set(token,{suspectId:form.get('suspectId'),reasonId:form.get('reasonId'),testify:form.get('testify')===null?undefined:form.get('testify')==='true'});}
+  if(event.target.closest('#paper-form')){
+    const data=new FormData($('#paper-form')),draft=paperDraft(state.public);draft.revealed=data.get('revealed')==='on';
+    for(const p of state.public.players)draft.ballots[p.id]={suspectId:data.get(`suspect-${p.id}`),reasonId:data.get(`reason-${p.id}`)};
+    savePaper(state.public,draft);
+  }
+});
+app.addEventListener('submit',event=>{
+  event.preventDefault(); const form=event.target;const data=new FormData(form);
+  run(async()=>{
+    if(form.id==='create-form')await create(false,data.get('storyId'));
+    else if(form.id==='join-home')location.href=`/?room=${encodeURIComponent(data.get('room').trim())}`;
+    else if(form.id==='join-form'){const joined=await api(`/api/rooms/${code}/join`,{method:'POST',body:{nickname:data.get('nickname')}});remember('p',code,joined);token=joined.token;setState(await getState());connect();}
+    else if(form.id==='vote-form')await dispatch('vote',{suspectId:data.get('suspectId'),reasonId:data.get('reasonId'),testify:data.get('testify')==='true'});
+    else if(form.id==='statement-form'){await dispatch('statement',{text:data.get('text')});notify('已记录到公共屏，等待大家核实。');}
+    else if(form.id==='paper-form'){
+      const ballots=state.public.players.map(p=>({playerId:p.id,suspectId:data.get(`suspect-${p.id}`),...(state.public.flowVersion===2?{}:{reasonId:data.get(`reason-${p.id}`)})}));
+      if(await confirmAction('按纸票揭晓结果？',`请核对公共屏上的${countWord(state.public.story.players)}张选票。确认后一次提交并公布真相。`)){await dispatch('screen_votes',{ballots,revealed:data.get('revealed')==='on'},hostToken||token);if(demo)setState(await getState());}
+    }
+  });
+});
+async function init(){
+  info=await api('/api/info');
+  code=query.get('demo')||query.get('room');
+  if(!code){home();return;}
+  if(!/^\d{6}$/.test(code)){showFatal('房间码应为6位数字。');return;}
+  if(demo){const saved=recalled('d',code);if(!saved?.players){showFatal('试玩凭证只保存在创建它的电脑浏览器中。');return;}hostToken=saved.token;demoPlayers=saved.players;token=demoPlayers[0].token;}
+  else if(hostMode){token=recalled('h',code)?.token;hostToken=token;if(!token){showFatal('这台浏览器没有公共屏凭证。请使用创建房间时的浏览器。');return;}}
+  else token=recalled('p',code)?.token;
+  if(!token){await joinPage();return;}
+  try{setState(await getState());connect();}catch(error){showFatal(error.message);}
+}
+init().catch(error=>showFatal(`连接失败：${error.message}。请确认游戏服务已经启动。`));
+</script>
+</body></html>

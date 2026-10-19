@@ -1,20 +1,17 @@
 {
   "name": "strange-realm",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.10.0",
-  "engines": { "node": ">=22", "pnpm": ">=10" },
-  "pnpm": { "onlyBuiltDependencies": ["esbuild", "msgpackr-extract"] },
+  "description": "一个网页、一台电脑、按剧本人数入席的局域网剧本杀",
+  "engines": { "node": ">=22" },
   "scripts": {
-    "dev": "pnpm --parallel --filter @strange-realm/server --filter @strange-realm/web dev",
-    "demo": "tsx scripts/demo.ts",
-    "check": "pnpm typecheck && pnpm test && pnpm build && pnpm test:integration",
-    "build": "pnpm -r build",
-    "typecheck": "tsc -p tsconfig.scripts.json && pnpm -r typecheck",
-    "test": "vitest run",
-    "test:integration": "tsx scripts/integration.ts",
-    "test:browser": "tsx scripts/browser-test.ts"
+    "start": "node server.mjs --open",
+    "dev": "node server.mjs",
+    "test": "node --test test/*.test.mjs",
+    "test:browser": "node test/browser.mjs && node test/browser.mjs after-closing && node test/browser.mjs last-ferry && node test/browser.mjs mermaid-letter",
+    "check": "node --check server.mjs && node --check engine.mjs && node --check stories.mjs && npm test"
   },
-  "devDependencies": { "@types/node": "^22.15.0", "typescript": "~5.8.3", "tsx": "^4.19.4", "vitest": "^3.2.4", "playwright": "^1.56.0", "colyseus.js": "0.16.22" }
+  "dependencies": { "qrcode": "1.5.4" },
+  "devDependencies": { "playwright": "1.64.0" }
 }

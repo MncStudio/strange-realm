@@ -1,6 +1,0 @@
-{
-  "name": "@strange-realm/scenarios", "version": "0.1.0", "private": true,
-  "type": "module", "exports": "./src/index.ts",
-  "scripts": { "build": "tsc --noEmit", "typecheck": "tsc --noEmit" },
-  "dependencies": { "@strange-realm/game-engine": "workspace:*", "@strange-realm/shared": "workspace:*" }
-}
