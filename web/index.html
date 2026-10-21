@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#131a23"><meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0d0e12"><meta name="color-scheme" content="dark">
 <title>诡境 · 围坐，听一个秘密</title>
 <style>
 :root {
@@ -291,6 +291,231 @@ dialog::backdrop { background: #060c13b8; }
 .paper-fields > div { min-width: 0; }
 .paper-confirm { display: flex; align-items: flex-start; gap: 12px; }
 .paper-confirm input { width: 20px; height: 20px; min-height: 20px; flex-shrink: 0; margin: 4px 0; accent-color: var(--gold); }
+/* ───────── 烛夜主题 · 2026-10-21 ─────────
+   在原有结构上叠加：烛光暗室、旧纸与封蜡。只改外观，不改布局与交互。 */
+:root {
+  --bg: #0d0e12;
+  --panel: #16181e;
+  --raised: #20232a;
+  --line: #2f323a;
+  --text: #f1e8d8;
+  --muted: #a8a196;
+  --gold: #d6b47c;
+  --ember: #e8c48a;
+  --blood: #8f2a24;
+  --blood-deep: #5a1612;
+  --red: #e39a86;
+  --green: #a9c2a2;
+  --paper: #ebe1ca;
+  --ink: #2a241e;
+  --glow: 0 0 0 1px #d6b47c33, 0 10px 40px -12px #d6b47c55;
+  --serif: "Songti SC", "STSong", "Noto Serif CJK SC", "Source Han Serif SC", serif;
+  --mono: "SF Mono", Menlo, Consolas, "Liberation Mono", ui-monospace, monospace;
+}
+::selection { background: #8f2a24cc; color: #fff4ea; }
+html { background: var(--bg); scrollbar-color: #3a3530 #0d0e12; }
+body {
+  background:
+    radial-gradient(1100px 620px at 12% -8%, #d6b47c17, transparent 62%),
+    radial-gradient(900px 700px at 105% 110%, #8f2a241f, transparent 60%),
+    linear-gradient(180deg, #101116 0%, #0b0c0f 100%);
+  background-color: var(--bg); background-repeat: no-repeat;
+}
+/* 暗角与胶片颗粒：固定在视口，不拦截点击 */
+body::before, body::after { content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; }
+body::before { background: radial-gradient(ellipse at 50% 40%, transparent 55%, #000a 100%); }
+body::after {
+  opacity: .07; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+#app { position: relative; z-index: 1; }
+
+/* 标题与品牌 */
+h1, h2, h3 { color: #f4ead8; }
+h1 { text-shadow: 0 0 34px #d6b47c22, 0 2px 0 #0006; }
+.brand { letter-spacing: .22em; text-shadow: 0 0 18px #d6b47c33; }
+.brand::before { content: ""; width: 9px; height: 9px; transform: rotate(45deg); background: radial-gradient(circle at 35% 35%, #c9473c, var(--blood-deep)); box-shadow: 0 0 10px #c9473c88; flex-shrink: 0; }
+.brand small { letter-spacing: .16em; border-left-color: #4a4540; }
+.masthead { border-bottom: 0; background: linear-gradient(90deg, transparent, #d6b47c40 20%, #d6b47c40 80%, transparent) bottom / 100% 1px no-repeat; }
+.eyebrow { letter-spacing: .12em; }
+.hero h1 { line-height: 1.32; }
+.hero h1 em { font-style: normal; color: #d4554a; text-shadow: 0 0 26px #c9473c66, 0 0 2px #ff9a8a44; }
+.hero .eyebrow { color: var(--ember); }
+.hero .eyebrow::before { content: "—— "; color: #8f2a24; }
+.hero p { color: #c2baad; }
+
+/* 按钮：烛光铜色主按钮、烟熏次按钮 */
+button { background: linear-gradient(180deg, #23262d, #1b1d23); border-color: #3a3d45; border-radius: 4px; box-shadow: inset 0 1px #ffffff0a; transition: background .2s, border-color .2s, box-shadow .2s, transform .12s, color .2s; }
+button:hover { background: linear-gradient(180deg, #2a2d35, #20232a); border-color: #6b6152; box-shadow: inset 0 1px #ffffff0f, 0 0 0 1px #d6b47c1f; }
+button:active:not(:disabled) { transform: translateY(1px); }
+.primary { background: linear-gradient(180deg, #e9c98f 0%, #cfa866 55%, #b68d4d 100%); color: #1d150b; border-color: #a9824a; text-shadow: 0 1px #fff3; letter-spacing: .06em; box-shadow: inset 0 1px #fff6, 0 8px 26px -10px #d6b47c99; }
+.primary:hover { background: linear-gradient(180deg, #f2d7a4 0%, #dab676 55%, #c09757 100%); border-color: #c09757; box-shadow: inset 0 1px #fff7, 0 10px 34px -8px #e8c48aaa; }
+.ghost { background: transparent; box-shadow: none; }
+.danger { color: var(--red); }
+button.danger:hover { border-color: #8f2a24; background: #8f2a2418; }
+a.button { background: transparent; border-color: #3a3d45; border-radius: 4px; }
+a.button:hover { border-color: var(--gold); color: var(--ember); }
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, summary:focus-visible { outline-color: var(--ember); box-shadow: 0 0 0 6px #d6b47c22; }
+
+/* 表单 */
+input, select, textarea { background: #0f1014; border-color: #3a3d45; border-radius: 3px; box-shadow: inset 0 2px 6px #0007; transition: border-color .2s, box-shadow .2s; }
+input:hover, select:hover, textarea:hover { border-color: #5b5449; }
+#room-input { font-family: var(--mono); color: var(--ember); }
+.radio-option { background: #121318; border-color: #34373f; }
+.radio-option:hover { border-color: #5b5449; }
+.radio-option:has(input:checked) { border-color: var(--gold); background: linear-gradient(90deg, #d6b47c18, transparent); box-shadow: inset 3px 0 var(--gold); }
+
+/* 卡片：深色漆木台面 */
+.card { background: linear-gradient(180deg, #1a1c22 0%, #14161b 100%); border-color: #2c2f37; border-radius: 6px; box-shadow: inset 0 1px #ffffff08, 0 20px 50px -30px #000; }
+.host-message { position: relative; border-left: 0; border-radius: 6px; background: linear-gradient(100deg, #d6b47c14, transparent 45%), linear-gradient(180deg, #1b1d23, #15171c); overflow: hidden; }
+.host-message::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, var(--ember), var(--blood)); box-shadow: 0 0 16px #d6b47c88; }
+.host-message h2 { color: #f6ead2; }
+
+/* 阶段：一盏一盏点亮的烛芯 */
+.phase { gap: 10px; }
+.phase li { position: relative; border-top: 1px solid #2c2f37; padding-top: 14px; letter-spacing: .06em; color: #8f8a82; }
+.phase li::before { content: ""; position: absolute; top: -4px; left: 0; width: 7px; height: 7px; border-radius: 50%; background: #2c2f37; border: 1px solid #45484f; }
+.phase li.done { color: #c3bcb0; border-color: #6d5f49; }
+.phase li.done::before { background: #6d5f49; border-color: #8a7756; }
+.phase li.active { color: var(--ember); border-color: var(--gold); }
+.phase li.active::before { background: var(--ember); border-color: #fff0cc; box-shadow: 0 0 10px 2px #e8c48aaa, 0 0 26px 6px #d6b47c44; animation: flicker 3.2s infinite; }
+.stage-meter strong { color: var(--ember); text-shadow: 0 0 18px #d6b47c44; }
+
+/* 首页邀请信：旧纸、焦边与封蜡 */
+.letter {
+  background:
+    radial-gradient(120px 80px at 85% 18%, #b7975f26, transparent 70%),
+    radial-gradient(160px 110px at 12% 88%, #8b6b3a1f, transparent 70%),
+    linear-gradient(170deg, #f1e7d1, #e3d6b9);
+  border-color: #cdbd9a;
+  box-shadow: inset 0 0 40px #8b6b3a30, inset 0 0 3px #6b4f2a55, 14px 20px 0 #0005, 0 28px 60px #000a;
+}
+.letter h2 { color: #241d16; text-shadow: none; }
+.letter-address { letter-spacing: .14em; border-bottom-color: #b9a985; }
+.envelope { background: #7d6a4e; border-color: #6a583e; box-shadow: 0 24px 50px #000b; }
+.envelope::before { background: linear-gradient(180deg, #8c7756, #7a6648); }
+.envelope::after { background: linear-gradient(0deg, #9c8661, #8d7854); }
+.envelope-seal {
+  border: 0; outline: 0; color: #f6d9c5; text-shadow: 0 -1px #0005;
+  background: radial-gradient(circle at 34% 30%, #d0574a 0%, #9c2f27 45%, #5a1612 100%);
+  box-shadow: inset 0 0 0 4px #ffffff10, inset 0 -3px 6px #0006, 0 0 0 3px #7a211b, 0 0 0 4px #c9473c55, 0 6px 14px #000a, 0 0 30px #c9473c44;
+}
+.scene::before { content: ""; position: absolute; z-index: -1; width: 70%; height: 70%; top: 10%; left: 15%; border-radius: 50%; background: radial-gradient(circle, #d6b47c26, transparent 70%); filter: blur(10px); animation: candle 6s ease-in-out infinite; }
+.scene-caption { letter-spacing: .12em; }
+.story-card .case-meta, .hero-note { letter-spacing: .04em; }
+.hero-note span + span::before { background: #8f2a24; width: 4px; height: 4px; }
+
+/* 大厅 / 二维码 */
+.lobby-letter { background: linear-gradient(180deg, #17191f, #121318); border-color: #2c2f37; border-radius: 6px; }
+.join-card { background: linear-gradient(180deg, #1d1b1a, #151417); border-color: #3a332a; }
+.roomcode, .join-page .room-invite b { font-family: var(--mono); color: var(--ember); text-shadow: 0 0 20px #d6b47c55; }
+.qr { border-color: #f4ecdc; background: #f4ecdc; box-shadow: 0 0 0 1px #d6b47c55, 0 18px 40px -16px #000; }
+
+/* 座位：在线如烛火 */
+.seat { background: linear-gradient(180deg, #17191e, #121318); border-color: #2f323a; border-radius: 4px; transition: border-color .2s; }
+.seat:hover { border-color: #4a4540; }
+.seat.empty { background: repeating-linear-gradient(135deg, transparent 0 8px, #ffffff05 8px 9px); border-color: #3a3d45; }
+.seat strong { font-family: var(--serif); font-size: 17px; }
+.seat .state { color: var(--ember); }
+.connection-dot.on::before, .status:not(.off)::before { box-shadow: 0 0 8px currentColor; }
+.connection-dot.on { color: var(--green); }
+
+/* 提示与记录 */
+.notice { background: linear-gradient(90deg, #d6b47c12, transparent); border-left-color: var(--gold); color: #e1d9c8; }
+.notice.warn { background: linear-gradient(90deg, #8f2a2420, transparent); border-left-color: #c9473c; color: #f0c7b8; }
+.record { background: #15171c; border-left-color: #6d5f49; }
+.anchor b { font-family: var(--mono); font-size: 22px; color: var(--ember); text-shadow: 0 0 16px #d6b47c44; }
+.empty-copy { border-color: #3a3d45; background: #ffffff03; }
+details.plain > summary { transition: color .2s; }
+details.plain > summary:hover { color: var(--text); }
+.section-title h2, .section-title h3 { display: flex; align-items: center; gap: 12px; }
+.section-title h2::before, .section-title h3::before { content: ""; width: 6px; height: 6px; transform: rotate(45deg); background: var(--blood); box-shadow: 0 0 8px #c9473c88; flex-shrink: 0; }
+.count { letter-spacing: .06em; font-variant-numeric: tabular-nums; }
+
+/* 物证：钉在案桌上的旧纸，胶带与档案编号 */
+.evidence {
+  position: relative; overflow: visible; border-radius: 2px; border-color: #c9b996;
+  background:
+    radial-gradient(90px 60px at 90% 12%, #a3834b1f, transparent 70%),
+    radial-gradient(140px 90px at 8% 92%, #7e5f321a, transparent 70%),
+    linear-gradient(175deg, #efe5cf, #e1d3b4);
+  box-shadow: inset 0 0 26px #8b6b3a26, 0 1px 0 #fff6 inset, 0 14px 26px -14px #000c, 0 2px 4px #0006;
+  transition: transform .25s ease, box-shadow .25s ease;
+}
+.evidence::before { content: ""; position: absolute; top: -9px; left: 50%; width: 64px; height: 18px; translate: -50% 0; rotate: -3deg; background: #e9dcb8b8; border: 1px solid #ffffff40; box-shadow: 0 1px 3px #0004; pointer-events: none; }
+.evidence-grid .evidence:nth-child(3n+1) { rotate: -.5deg; }
+.evidence-grid .evidence:nth-child(3n+2) { rotate: .4deg; }
+.evidence-grid .evidence:nth-child(3n) { rotate: -.2deg; }
+.evidence-grid .evidence:nth-child(3n+2)::before { rotate: 4deg; }
+.evidence:hover { transform: translateY(-3px); box-shadow: inset 0 0 26px #8b6b3a26, 0 22px 34px -16px #000e, 0 2px 4px #0006; }
+.evidence[open] { rotate: 0deg; }
+.evidence summary strong { font-family: var(--serif); font-size: 17px; color: #231c15; }
+.ev-id { letter-spacing: .06em; color: #7a2a20; font-variant-numeric: tabular-nums; }
+.ev-body { color: #2f2820; }
+.ev-body button { background: #ddd0b3; border-color: #b4a07a; color: #2a221a; box-shadow: none; }
+.ev-body button:hover { background: #d1c19f; border-color: #8f7a52; }
+.private-hint { color: #7a2a20; border-top-color: #b4a07a; }
+
+/* 地点 */
+.location { background: linear-gradient(180deg, #1a1c22, #141519); border-color: #34373f; }
+.location:hover { border-color: var(--gold); background: linear-gradient(180deg, #211f1d, #171618); box-shadow: 0 0 0 1px #d6b47c22, 0 14px 30px -18px #d6b47c66; }
+.location .place-icon { color: var(--ember); filter: drop-shadow(0 0 6px #d6b47c66); }
+
+/* 私人卷宗：封蜡、密印与纸纹 */
+.role-card {
+  --paper: #ece2cb;
+  background:
+    radial-gradient(220px 140px at 100% 0%, #a3834b22, transparent 70%),
+    radial-gradient(260px 180px at 0% 100%, #7e5f321c, transparent 70%),
+    linear-gradient(175deg, #f0e6d0, #e2d4b6);
+  border-color: #c9b996; border-radius: 3px; overflow: hidden;
+  box-shadow: inset 0 0 40px #8b6b3a2a, 0 22px 50px -24px #000, 0 2px 6px #0007;
+}
+.role-card::before { height: 4px; left: 0; right: 0; top: 0; background: linear-gradient(90deg, transparent, #9c2f27 18%, #c9473c 50%, #9c2f27 82%, transparent); }
+.role-card::after { content: "密"; position: absolute; right: -14px; bottom: -18px; width: 120px; height: 120px; border: 3px double #9c2f2733; border-radius: 50%; color: #9c2f271a; font: 64px/112px var(--serif); text-align: center; rotate: -14deg; pointer-events: none; }
+.role-card > * { position: relative; z-index: 1; }
+.role-name, .role-card h2, .role-card h3 { color: #221b14; text-shadow: none; }
+.role-card .primary { background: linear-gradient(180deg, #2b2520, #1b1714); border-color: #1b1714; color: #f3e4c6; text-shadow: none; box-shadow: inset 0 1px #ffffff14, 0 8px 20px -10px #000; }
+.role-card .primary:hover { background: linear-gradient(180deg, #3a312a, #241e1a); }
+.role-card .notice { background: #ddd0b3; border-left-color: #9c2f27; }
+.role-card button:not(.primary) { background: #e3d6ba; color: #2a221a; border-color: #b4a07a; box-shadow: none; }
+.role-card details.plain > summary::before, .role-card .action-facts li::marker { color: #9c2f27; }
+.private-badge { letter-spacing: .06em; border-color: #8b8170; background: #fff3; }
+.private-badge.culprit { color: #fff0e8; background: linear-gradient(180deg, #a8352c, #7a211b); border-color: #5a1612; box-shadow: 0 0 14px #c9473c66; }
+.single-purpose { border-color: #c4b48f; }
+.single-purpose h2 { color: #6e1f18; }
+.current-direction { border-left-color: #9c2f27; }
+
+/* 手机底栏 */
+.tabs { background: #0d0e12e8; border-top-color: #2a2c33; }
+.tabs button { background: transparent; box-shadow: none; }
+.tabs button.active { color: var(--ember); background: linear-gradient(180deg, #d6b47c14, transparent); box-shadow: inset 0 2px var(--gold); }
+
+/* 投票与揭晓 */
+.vote-form legend { color: #f4ead8; }
+.paper-form fieldset { border-color: #34373f; border-radius: 4px; background: #ffffff03; }
+.results-title { color: var(--ember); letter-spacing: .06em; text-shadow: 0 0 40px #d6b47c55, 0 0 2px #fff4; }
+.timeline { border-left-color: #4a3a2a; }
+.timeline-item::before { background: #c9473c; box-shadow: 0 0 10px #c9473caa; }
+.timeline-item b { font-family: var(--mono); color: var(--ember); }
+.tag { border-color: #3a3d45; }
+
+/* 单人试玩与浮层 */
+.demo-bar { background: #16181ef0; border-color: #3a3530; box-shadow: 0 14px 40px -20px #000; }
+.demo-grid .phone-pane { background: #0b0c0f; border-color: #3a3530; border-radius: 22px; box-shadow: inset 0 0 0 6px #15161a, 0 30px 60px -30px #000; }
+.demo-grid .phone-pane .tabs { background: #0b0c0f; }
+.toast { background: linear-gradient(180deg, #3a1714, #2a100e); border-color: #9c2f27; color: #ffe9df; box-shadow: 0 0 30px #8f2a2455, 0 10px 30px #000a; }
+dialog { background: linear-gradient(180deg, #1b1c22, #131418); border-color: #4a4038; box-shadow: 0 30px 80px #000c, 0 0 0 1px #d6b47c22; }
+dialog::backdrop { background: radial-gradient(circle, #0a0b0ecc, #000e); backdrop-filter: blur(3px); }
+.loading { font-family: var(--serif); letter-spacing: .2em; animation: flicker 2.4s infinite; }
+.join-page .card { border-top: 0; position: relative; overflow: hidden; }
+.join-page .card::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, transparent, var(--gold), transparent); }
+
+@keyframes flicker { 0%, 100% { opacity: 1; } 8% { opacity: .78; } 12% { opacity: .96; } 46% { opacity: .88; } 52% { opacity: 1; } 78% { opacity: .9; } }
+@keyframes candle { 0%, 100% { opacity: .85; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@media (max-width: 760px) { .evidence-grid .evidence { rotate: 0deg !important; } .role-card::after { width: 96px; height: 96px; font-size: 50px; line-height: 88px; } body::after { opacity: .05; } }
+@media print { body::before, body::after { display: none !important; } }
+/* ───────── 烛夜主题结束 ───────── */
 #print-ballots { display: none; }
 @media(max-width:760px) { .public-relations,.paper-fields { grid-template-columns: 1fr; } .private-action .role-card { padding: 20px; } }
 @media print {
@@ -502,7 +727,7 @@ function home() {
   }).join('');
   app.innerHTML=`${header()}
     <section class="hero">
-      <div class="hero-text"><p class="eyebrow">和朋友围坐，进入一场悬疑故事</p><h1>今晚，<br>谁在说谎？</h1><p>电脑展开案情，手机送来各自的秘密。<br>找到线索，问清行踪，听听对方怎么说。</p><div class="hero-note"><span>同一 Wi-Fi</span><span>面对面讨论</span><span>无倒计时</span></div></div>
+      <div class="hero-text"><p class="eyebrow">和朋友围坐，进入一场悬疑故事</p><h1>今晚，<br>谁在<em>说谎</em>？</h1><p>电脑展开案情，手机送来各自的秘密。<br>找到线索，问清行踪，听听对方怎么说。</p><div class="hero-note"><span>同一 Wi-Fi</span><span>面对面讨论</span><span>无倒计时</span></div></div>
       ${scene()}
     </section>
     <section class="home-grid">
